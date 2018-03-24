@@ -1,10 +1,13 @@
 # Build and test script
 
+# Get the source directory
+SOURCEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Delete build folder
+rm -rf "$SOURCEDIR/build"
+
 # Compile contracts with truffle
 truffle compile
-
-# Launch local ethereum blockchain in background
-#ganache-cli
 
 # Migrate contracts to blockchain with truffle
 truffle migrate
