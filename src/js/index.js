@@ -1,111 +1,72 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Web3 from 'web3'
-import './../css/index.css'
+import QuizContract from '../../build/contracts/Quiz.json'
+import getWeb3 from '../utils/web3util'
+import '../css/index.css'
+import TruffleContract from 'truffle-contract'
+
 class App extends React.Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        lastWinner: 0,
-        numberOfBets: 0,
-        minimumBet: 0,
-        totalBet: 0,
-        maxAmountOfBets: 0,
-      }
-
-      if (typeof web3 != 'undefined') {
-        console.log("Using web3 detected from external source like Metamask")
-        this.web3 = new Web3(web3.currentProvider)
-      } else {
-        console.log("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
-        this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
-      }
-
-      voteNumber(number) {
-        console.log(number)
-      }
-      render() {
-        return ( <
-          div className = "main-container" >
-          <
-          h1 > Bet
-          for your best number and win huge amounts of Ether < /h1> <
-          div className = "block" >
-          <
-          h4 > Timer: < /h4> &nbsp; <
-          span ref = "timer" > {
-            this.state.timer
-          } < /span> < /
-          div > <
-          div className = "block" >
-          <
-          h4 > Last winner: < /h4> &nbsp; <
-          span ref = "last-winner" > {
-            this.state.lastWinner
-          } < /span> < /
-          div > <
-          hr / >
-          <
-          h2 > Vote
-          for the next number < /h2> <
-          ul >
-          <
-          li onClick = {
-            () => {
-              this.voteNumber(1)
-            }
-          } > 1 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(2)
-            }
-          } > 2 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(3)
-            }
-          } > 3 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(4)
-            }
-          } > 4 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(5)
-            }
-          } > 5 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(6)
-            }
-          } > 6 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(7)
-            }
-          } > 7 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(8)
-            }
-          } > 8 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(9)
-            }
-          } > 9 < /li> <
-          li onClick = {
-            () => {
-              this.voteNumber(10)
-            }
-          } > 10 < /li> < /
-          ul > <
-          /div>
-        )
-      }
+  constructor(props) {
+    super(props)
+    this.state = {
+      isClicked: false,
+      web3: null,
+      quizInstance: null,
     }
-    ReactDOM.render( <
-      App / > ,
-      document.querySelector('#root')
+  }
+
+  componentWillMount() {
+    getWeb3.then(results => {
+      let quizContract = TruffleContract(QuizContract)
+      quizContract.setProvider(results.web3.currentProvider)
+      if (typeof quizContract.currentProvider.sendAsync !== "function") {
+        quizContract.currentProvider.sendAsync = function() {
+          return quizContract.currentProvider.send.apply(
+            quizContract.currentProvider, arguments
+          );
+        };
+      }
+
+      quizContract.deployed().then(instance => {
+        this.setState({
+          quizInstance: instance,
+          web3: results.web3
+        })
+      })
+
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  showMaxPlayers() {
+    if (this.state.quizInstance && !this.state.isClicked) {
+      this.state.quizInstance.getMaxNumberPlayers().then(result => {
+        this.setState({
+          isClicked: true,
+          maxPlayers: result.c[0]
+        })
+      })
+    } else {
+      this.setState({
+        isClicked: false
+      })
+    }
+  }
+
+  render() {
+    return (
+      <div className="main-container">
+        <div className="sample-button" onClick={() => this.showMaxPlayers()}>
+          {(this.state.isClicked) ? 'Hide Max Players' : 'Show Max Players'}
+        </div>
+        {(this.state.isClicked) &&
+        <div className="max-players">
+          {this.state.maxPlayers}
+        </div>}
+      </div>
     )
+  }
+}
+
+ReactDOM.render( <App / > , document.querySelector('#root'))
