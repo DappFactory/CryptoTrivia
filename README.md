@@ -10,3 +10,9 @@ ganache-cli -p 7545 -i 8887
 ```
 bash run.sh
 ```
+
+3. Start up the front end
+```
+npm install
+npm run start
+```
