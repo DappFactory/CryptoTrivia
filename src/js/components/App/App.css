@@ -1,13 +1,4 @@
-body{
-  font-family: 'open sans';
-  margin: 0;
-}
-
-*{
-   color: #444444;
-}
-
-.main-container{
+.app-main-container{
    padding: 20px;
 }
 
@@ -37,7 +28,7 @@ body{
   vertical-align: top;
 }
 
-.toggle-btn-wrapper {
+.app-toggle-btn-wrapper {
   display: block;
   text-align: center;
   margin: 32px auto;
