@@ -1,23 +1,19 @@
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import App from './App'
-
-const initialState = {
-
-}
+import {
+  initializeAllContracts
+} from './reducers'
 
 // props for App Component
-const mapStateToProps = state => {
-    console.log(state)
-    return {
-      isLoading: state.isLoading
-    }
-}
+const mapStateToProps = state =>  ({
+  isLoading: state.app.isLoading,
+  quizInstance: state.app.quizInstance
+})
 
 //functions
-const mapDispatchToProps = dispatch => bindActionCreators({
-  changePage: () => console.log('hello')
-}, dispatch)
+const mapDispatchToProps = {
+  initializeAllContracts
+}
 
 export default connect(
   mapStateToProps,

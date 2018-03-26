@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import modules from './modules'
+import app from './components/App/reducers'
 
 export default combineReducers({
-  modules
+  app
 })
