@@ -30,3 +30,15 @@ body{
   padding: 10px 20px;
   background-color: lightgray;
 }
+
+.display-info-panel {
+  display: inline-block;
+  margin: 0 8px;
+  vertical-align: top;
+}
+
+.toggle-btn-wrapper {
+  display: block;
+  text-align: center;
+  margin: 32px auto;
+}
