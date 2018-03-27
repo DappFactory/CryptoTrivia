@@ -1,17 +1,4 @@
-body{
-  font-family: 'open sans';
-  margin: 0;
-}
-
-*{
-   color: #444444;
-}
-
-.main-container{
-   padding: 20px;
-}
-
-.sample-button {
+.toggle-sample-button {
   width: 200px;
   text-align: center;
   margin-left: auto;
@@ -31,14 +18,8 @@ body{
   background-color: lightgray;
 }
 
-.display-info-panel {
+.toggle-display-info-panel {
   display: inline-block;
   margin: 0 8px;
   vertical-align: top;
-}
-
-.toggle-btn-wrapper {
-  display: block;
-  text-align: center;
-  margin: 32px auto;
 }

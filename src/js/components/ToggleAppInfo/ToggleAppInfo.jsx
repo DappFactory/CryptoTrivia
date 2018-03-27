@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './ToggleAppInfo.css'
 
 export default class ToggleAppInfo extends React.Component {
   state = {
@@ -11,7 +12,7 @@ export default class ToggleAppInfo extends React.Component {
     const { quizInstance, getMethod } = this.props;
     const { isClicked } = this.state;
 
-    if (quizInstance && !isClicked) {
+    if (!isClicked) {
       quizInstance[getMethod]().then(result => {
         this.setState({
           isClicked: true,
@@ -45,8 +46,8 @@ export default class ToggleAppInfo extends React.Component {
     const buttonLabel = (this.state.isClicked) ? hideLabel : showLabel;
 
     return (
-      <div className="display-info-panel">
-        <div className="sample-button" onClick={() => this.toggleInfoPanel()}>
+      <div className="toggle-display-info-panel">
+        <div className="toggle-sample-button" onClick={() => this.toggleInfoPanel()}>
           { buttonLabel }
         </div>
         { this.renderInfo() }
@@ -61,5 +62,4 @@ ToggleAppInfo.propTypes = {
   info: PropTypes.string,
   quizInstance: PropTypes.object,
   showLabel: PropTypes.string,
-  web3: PropTypes.object,
 };
