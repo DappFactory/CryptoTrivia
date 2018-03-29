@@ -25,9 +25,15 @@ This will add our <dir> folder to the network, and can generate a long hash for 
 This will publish that specific hash generated for <dir>, which will give you IPFS access to the <dir> you chose. 
 
 #### Sequence Of Adding/Updating Files
-    webpack
+    webpack (configurations)
     ipfs add -r <dir>/
     ipfs name publish <hash>
+
+## 3rd Party APIs
+Since doing all this can be tedious given the various ways to upload data (e.g. files, url, streaming data, etc.), we can rely on a 3rd party API to do most of the abstraction for us.
+
+https://github.com/ipfs/js-ipfs-api
+
 
 
 
