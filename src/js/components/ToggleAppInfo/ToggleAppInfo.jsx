@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './ToggleAppInfo.css'
+import Button from '../SharedComponents/Button.js';
+import InfoContainer from './InfoContainer';
+import ButtonGroup from './ButtonGroup';
 
 export default class ToggleAppInfo extends React.Component {
   state = {
@@ -33,9 +35,9 @@ export default class ToggleAppInfo extends React.Component {
     return (
       <div>
         { (isClicked) &&
-          <div className="max-players">
+          <InfoContainer className="max-players">
             {info}
-          </div>
+          </InfoContainer>
         }
       </div>
     );
@@ -46,12 +48,12 @@ export default class ToggleAppInfo extends React.Component {
     const buttonLabel = (this.state.isClicked) ? hideLabel : showLabel;
 
     return (
-      <div className="toggle-display-info-panel">
-        <div className="toggle-sample-button" onClick={() => this.toggleInfoPanel()}>
+      <ButtonGroup>
+        <Button onClick={() => this.toggleInfoPanel()}>
           { buttonLabel }
-        </div>
+        </Button>
         { this.renderInfo() }
-      </div>
+      </ButtonGroup>
     );
   }
 }
