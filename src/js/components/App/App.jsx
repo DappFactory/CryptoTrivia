@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ToggleAppInfo from '../ToggleAppInfo';
-import './App.css';
+import Loader from '../SharedComponents/Loader.js';
+import ButtonWrapper from './ButtonWrapper.js';
+import AppBody from './AppBody.js';
 
 export default class App extends React.Component {
 
@@ -15,12 +17,12 @@ export default class App extends React.Component {
   render() {
     if (this.props.isLoading) {
       return (
-        <div className="app-loading"> </div>
+        <Loader>Is loading...</Loader>
       );
     } else {
       return (
-        <div className="app-main-container">
-          <div className="app-toggle-btn-wrapper">
+        <AppBody>
+          <ButtonWrapper>
             <ToggleAppInfo
               getMethod="getMaxNumberPlayers"
               hideLabel="Hide Max Players"
@@ -34,8 +36,8 @@ export default class App extends React.Component {
               showLabel="Show Pot Size"
               quizInstance={this.props.quizInstance}
             />
-          </div>
-        </div>
+          </ButtonWrapper>
+        </AppBody>
       );
     }
   }
