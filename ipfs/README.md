@@ -30,10 +30,15 @@ This will publish that specific hash generated for <dir>, which will give you IP
     ipfs name publish <hash>
 
 ## 3rd Party APIs
-Since doing all this can be tedious given the various ways to upload data (e.g. files, url, streaming data, etc.), we can rely on a 3rd party API to do most of the abstraction for us.
+1. Since doing all this can be tedious given the various ways to upload data (e.g. files, url, streaming data, etc.), we can rely on a 3rd party API to do most of the abstraction for us.
 
 https://github.com/ipfs/js-ipfs-api
 
+2. Also we can use IPNS to continuously modify pointers to our hashed data.
 
-
+## Adding Quiz Dataset To IPFS:
+    
+    ipfs dameon
+    ipfs add _data/data.csv
+    ipfs name publish <hash>
 
