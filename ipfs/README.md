@@ -14,7 +14,7 @@ We need the ethereum web3 javascript interface package (web3). This will initial
 
     ipfs daemon
 
-This will initiate the daemon background process on one terminal window, which will serve as a gateway link to the IPFS nodes. 
+This will initiate the daemon background process on one terminal window, which will serve as a gateway link to the IPFS nodes.
 
     ipfs add -r <dir>/
 
@@ -22,7 +22,7 @@ This will add our <dir> folder to the network, and can generate a long hash for 
 
     ipfs name publish <hash>
 
-This will publish that specific hash generated for <dir>, which will give you IPFS access to the <dir> you chose. 
+This will publish that specific hash generated for <dir>, which will give you IPFS access to the <dir> you chose.
 
 #### Sequence Of Adding/Updating Files
     webpack (configurations)
@@ -36,9 +36,13 @@ https://github.com/ipfs/js-ipfs-api
 
 2. Also we can use IPNS to continuously modify pointers to our hashed data.
 
-## Adding Quiz Dataset To IPFS:
-    
+## Adding Quiz Dataset To IPFS
+
     ipfs dameon
-    ipfs add _data/data.csv
+    ipfs add data/data.csv
     ipfs name publish <hash>
 
+## Checking Quiz Dataset on IPFS
+
+1. Use browser to check uploaded file content on IPFS using following URL
+* http://ipfs.io/ipfs/<hash>
