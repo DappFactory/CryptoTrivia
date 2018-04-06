@@ -64,6 +64,10 @@ contract Quiz {
         return MaxNumberPlayers;
     }
 
+    function getTotalBet() public view returns(uint256) {
+        return totalBet;
+    }
+
     function generateNumberWinner() public {
         // *I DON'T THINK THIS IS NECESSARY / NEEDS TO BE MODDED*
         uint256 numberGenerated = block.number % 10 + 1;
@@ -93,8 +97,8 @@ contract Quiz {
         players.length = 0; // Delete all the players array
         uint256 winnerEtherAmount = totalBet / winners.length; // How much each winner gets
         for(uint256 j = 0; j < count; j++){
-           if(winners[j] != address(0)) // Check that the address in this fixed array is not empty
-           winners[j].transfer(winnerEtherAmount);
+            if(winners[j] != address(0)) // Check that the address in this fixed array is not empty
+                winners[j].transfer(winnerEtherAmount);
         }
     }
 
