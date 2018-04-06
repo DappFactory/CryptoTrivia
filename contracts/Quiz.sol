@@ -4,9 +4,7 @@ contract Quiz {
     address public owner;
     uint256 public BetAmount;
     uint256 public QuestionTime;
-    uint256 public TotalQuestions;
-    uint256 public maxAmountOfBets = 100;
-    uint256 public MaxNumberPlayers = 10;
+    uint256 public TotalQuestions;w
 
     Question[] public QuestionList;
     bool started;
@@ -25,6 +23,8 @@ contract Quiz {
         Answer Answer;
         uint256 Time;
     }
+
+    event QuestionAnswered(Question q, Answer a);
 
     function Quiz(
       uint256 totalQuestions,
@@ -49,7 +49,7 @@ contract Quiz {
 
     }
 
-    function initializeQuestions() public {
+    function initializeQuestions() private {
     /*
     Function (public) Initialize the set of questions from database on IPFS
 
@@ -82,7 +82,7 @@ contract Quiz {
 
     function answerQuestion(Answers answer) public {
     /*
-    Function (public) Answer the current question and move to next question
+    Function (public) Answer the current question, increment question counter and
 
     @output:
     - None
@@ -94,6 +94,8 @@ contract Quiz {
         }
 
         questionCounter++;
+
+        emit QuestionAnswered(QuestionList[questionCounter], answer);
     }
 
     function distributePrize(uint256 winningPlayer) public {
