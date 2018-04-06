@@ -96,7 +96,7 @@ contract Quiz {
         questionCounter++;
     }
 
-    function distributePrizes(uint256 winningPlayer) public {
+    function distributePrize(uint256 winningPlayer) public {
     /*
     Function (public) to distribute rewards to the winner of this Quiz game.
 
