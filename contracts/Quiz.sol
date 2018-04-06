@@ -2,12 +2,18 @@ pragma solidity ^0.4.17;
 
 contract Quiz {
     address public owner;
-    uint256 public minimumBet;
-    uint256 public totalBet;
-    uint256 public numberOfBets;
+    uint256 public BetAmount;
+    uint256 public QuestionTime;
+    uint256 public TotalQuestions;
     uint256 public maxAmountOfBets = 100;
     uint256 public MaxNumberPlayers = 10;
-    address[] public players;
+
+    Question[] public QuestionList;
+    bool started;
+    uint256 questionCounter = 0;
+    uint256 questionsCorrect = 0;
+
+    enum Answer {A,B,C,D}
 
     struct Player {
         uint256 amountBet;
@@ -15,63 +21,79 @@ contract Quiz {
     }
 
     struct Question {
-        string text;
-        uint256 answer;
+        string Text;
+        Answer Answer;
+        uint256 Time;
     }
 
-    mapping(address => Player) public playerInfo;
-
-    function Quiz(uint256 _minimumBet, uint256 maxNumberPlayers) public {
+    function Quiz(
+      uint256 totalQuestions,
+      uint256 questionTime) public {
         owner = msg.sender;
-        minimumBet = _minimumBet;
-        MaxNumberPlayers = maxNumberPlayers;
+        QuestionTime = questionTime;
+        TotalQuestions = totalQuestions;
+
+        initializeQuestions();
     }
 
-    function bet(uint256 answerSelected) public payable {
+    function start() public {
     /*
-    Function (public) to create bets and allows this function to receive ether.
-
-    @params: 
-    - answerSelected (uint256) is the answer that was selected by this 
-    player.
+    Function (public) Start the quiz
 
     @output:
     - None
-
     */
-        // *WHAT IS THIS DOING?*
-        require(!checkPlayerExists(msg.sender));
-        require(answerSelected >= 1 && answerSelected <= 4);
-        require(msg.value >= minimumBet);
-        playerInfo[msg.sender].amountBet = msg.value;
-        playerInfo[msg.sender].answerSelected = answerSelected;
-        numberOfBets++;
-        players.push(msg.sender);
-        totalBet += msg.value;
+        require(!started);
+
+        started = true;
+
     }
 
-    function getMaxNumberPlayers() public view returns(uint256) {
+    function initializeQuestions() public {
     /*
-    Function (public) to check what the max number of players set was.
-    *IS THIS NECESSARY?*
-
-    @params:
-    - None
+    Function (public) Initialize the set of questions from database on IPFS
 
     @output:
-    - MaxNumberPlayers (uint256)
-    */  
-        return MaxNumberPlayers;
+    - None
+    */
+        require(TotalQuestions < 20);
+
+        for (uint i = 0; i < TotalQuestions; i++) {
+            // TODO: get questions from IPFS
+            QuestionList.push(Question({
+                Text : 'Question text',
+                Answer : 'Question answer',
+                Time : QuestionTime
+                }));
+        }
     }
 
-    function getTotalBet() public view returns(uint256) {
-        return totalBet;
+    function getQuestion() public view returns(Question) {
+    /*
+    Function (public) Returns the next question
+
+    @output:
+    - Question
+    */
+        require(questionCounter < TotalQuestions);
+
+        return QuestionList[questionCounter];
     }
 
-    function generateNumberWinner() public {
-        // *I DON'T THINK THIS IS NECESSARY / NEEDS TO BE MODDED*
-        uint256 numberGenerated = block.number % 10 + 1;
-        distributePrizes(numberGenerated);
+    function answerQuestion(Answers answer) public {
+    /*
+    Function (public) Answer the current question and move to next question
+
+    @output:
+    - None
+    */
+        require(questionCounter < TotalQuestions);
+
+        if (QuestionList[questionCounter].Answer == answer) {
+            questionsCorrect++;
+        }
+
+        questionCounter++;
     }
 
     function distributePrizes(uint256 winningPlayer) public {
@@ -83,7 +105,7 @@ contract Quiz {
 
     @output:
     - None
-    */  
+    */
         address[100] memory winners; // We have to create a temporary in memory array with fixed size
         uint256 count = 0; // This is the count for the array of winners
         for(uint256 i = 0; i < players.length; i++){
