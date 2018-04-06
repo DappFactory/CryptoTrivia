@@ -4,20 +4,28 @@ import QuizContract from '../../../../build/contracts/Quiz.json';
 
 export const QUIZ_INSTANCE = 'APP/QUIZ_INSTANCE';
 export const IS_LOADING = 'APP/IS_LOADING';
-export const ERROR = 'APP/ERROR'
+export const ERROR = 'APP/ERROR';
+export const USER_ADDRESS = 'APP/USER_ADDRESS';
 
 const initialState = {
   quizInstance: null,
-  isLoading: true
+  isLoading: true,
+  userAddress: null
 };
 
 function getWeb3() {
   return new Promise(function(resolve, reject) {
     window.addEventListener('load', function() {
-      let web3 = window.web3
+      let web3 = window.web3;
       if (typeof web3 !== 'undefined') {
-        web3 = new Web3(web3.currentProvider)
-        resolve({ web3: web3 })
+
+        // ADD: Added this line here to extract default account
+        const defaultAccount = web3.eth.defaultAccount;
+
+        web3 = new Web3(web3.currentProvider);
+
+        // ADD: Pass this defaultAccount
+        resolve({ web3: web3, defaultAccount })
       } else {
         const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
         web3 = new Web3(provider)
@@ -33,7 +41,6 @@ export function initializeAllContracts() {
     getWeb3().then(results => {
       let quizContract = TruffleContract(QuizContract);
       quizContract.setProvider(results.web3.currentProvider);
-
       if (typeof quizContract.currentProvider.sendAsync !== "function") {
         quizContract.currentProvider.sendAsync = function() {
           return quizContract.currentProvider.send.apply(
@@ -42,7 +49,10 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.deployed().then(instance => {
+      quizContract.at('0x1f85d245a4a922a5b6f20419dc713afb3aa743e8').then(instance => {
+        console.log(instance);
+        // ADD: dispatch here and save it in the state.
+        dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
         dispatch({ type: QUIZ_INSTANCE, payload: instance })
         dispatch({ type: IS_LOADING, payload: false })
       });
@@ -61,6 +71,7 @@ export default (state = initialState, action) => {
     case QUIZ_INSTANCE: return { ...state, quizInstance: action.payload }
     case IS_LOADING: return { ...state, isLoading: action.payload }
     case ERROR: return { ...state, isLoading: action.payload }
+    case USER_ADDRESS: return { ...state, userAddress: action.payload }
 
     default: return state
   }

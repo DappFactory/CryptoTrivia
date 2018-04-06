@@ -4,6 +4,7 @@ import ToggleAppInfo from '../ToggleAppInfo';
 import Loader from '../SharedComponents/Loader.js';
 import ButtonWrapper from './ButtonWrapper.js';
 import AppBody from './AppBody.js';
+import Quiz from '../Quiz';
 
 export default class App extends React.Component {
 
@@ -23,19 +24,7 @@ export default class App extends React.Component {
       return (
         <AppBody>
           <ButtonWrapper>
-            <ToggleAppInfo
-              getMethod="getMaxNumberPlayers"
-              hideLabel="Hide Max Players"
-              showLabel="Show Max Players"
-              quizInstance={this.props.quizInstance}
-            />
-
-            <ToggleAppInfo
-              getMethod="getTotalBet"
-              hideLabel="Hide Pot Size"
-              showLabel="Show Pot Size"
-              quizInstance={this.props.quizInstance}
-            />
+            <Quiz />
           </ButtonWrapper>
         </AppBody>
       );

@@ -1,5 +1,5 @@
-import { connect } from 'react-redux'
-import App from './App'
+import { connect } from 'react-redux';
+import App from './App';
 import {
   initializeAllContracts
 } from './reducers'
