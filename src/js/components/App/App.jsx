@@ -4,6 +4,7 @@ import ToggleAppInfo from '../ToggleAppInfo';
 import Loader from '../SharedComponents/Loader.js';
 import ButtonWrapper from './ButtonWrapper.js';
 import AppBody from './AppBody.js';
+import StartScreen from '../StartScreen/StartScreen';
 
 export default class App extends React.Component {
 
@@ -22,6 +23,8 @@ export default class App extends React.Component {
     } else {
       return (
         <AppBody>
+          <StartScreen/>
+          {/*
           <ButtonWrapper>
             <ToggleAppInfo
               getMethod="getMaxNumberPlayers"
@@ -37,6 +40,7 @@ export default class App extends React.Component {
               quizInstance={this.props.quizInstance}
             />
           </ButtonWrapper>
+          */}
         </AppBody>
       );
     }
