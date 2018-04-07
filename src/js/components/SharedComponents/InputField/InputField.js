@@ -4,8 +4,7 @@ import * as colors from '../../../styles/colors';
 
 const InputFieldWrapper = styled.div`
   width: 240px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 16px auto;
 `;
 
 const Input = styled.input`
@@ -27,6 +26,6 @@ const Label = styled.label`
 export default (props) => (
   <InputFieldWrapper>
     <Label>{props.placeholder}</Label>
-    <Input/>
+    <Input onChange={(e) => props.onChange(e.target.value)} />
   </InputFieldWrapper>
 );

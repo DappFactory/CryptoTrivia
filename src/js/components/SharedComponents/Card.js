@@ -1,9 +1,23 @@
 import styled from 'styled-components';
 import * as colors from '../../styles/colors';
 
+const getSize = (size, customSize) => {
+  const cardSize = size ? size.toLowerCase() : null;
+  switch (cardSize) {
+    case 'small':
+      return '200px';
+    case 'medium':
+      return '350px';
+    case 'large':
+      return '500px';
+    default:
+      return customSize ? `${customSize}` : '200px';
+  }
+}
+
 export default styled.div`
-  width: 400px;
-  height: 400px;
+  width: ${props => getSize(props.size, props.width)};
+  height:${props => getSize(props.size, props.height)};
   border-radius: 8px;
   background-color: ${colors.snow};
   margin: 50px auto;

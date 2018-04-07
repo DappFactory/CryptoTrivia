@@ -25,6 +25,7 @@ module.exports = {
   lightPink: '#FF7CE5',
   pink: '#FF49DB',
   darkPink: '#F21E4F',
+  darkerPink: '#DB1240',
   // orange shades
   lightOrange: '#FF9E7C',
   orange: '#FF7849',
