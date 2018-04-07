@@ -14,18 +14,21 @@ const Input = styled.input`
   box-sizing: border-box;
   margin-top: 8px;
   &:focus {
-    outline: solid 1px ${colors.purple};
+    outline: solid 1px ${props => `${colors[props.color]}`};
   }
 `;
 
 const Label = styled.label`
-  color: ${colors.purple};
+  color: ${props => `${colors[props.color]}`};
   margin-bottom: 8px;
 `
 
 export default (props) => (
   <InputFieldWrapper>
-    <Label>{props.placeholder}</Label>
-    <Input onChange={(e) => props.onChange(e.target.value)} />
+    <Label color={props.color}>{props.placeholder}</Label>
+    <Input
+      color={props.color}
+      onChange={(e) => props.onChange(e.target.value)}
+    />
   </InputFieldWrapper>
 );

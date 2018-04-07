@@ -4,7 +4,7 @@ import ToggleAppInfo from '../ToggleAppInfo';
 import Loader from '../SharedComponents/Loader.js';
 import ButtonWrapper from './ButtonWrapper.js';
 import AppBody from './AppBody.js';
-import StartScreen from '../StartScreen/StartScreen';
+import StartScreen from '../StartScreen/index.js';
 
 export default class App extends React.Component {
 
