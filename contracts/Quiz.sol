@@ -37,8 +37,8 @@ contract Quiz {
       uint totalQuestions,
       uint questionTime) public {
         owner = msg.sender;
-        QuestionTime = questionTime;
         TotalQuestions = totalQuestions;
+        QuestionTime = questionTime;
     }
 
     function bet(uint amount) public payable {
@@ -125,17 +125,18 @@ contract Quiz {
         require(quizzes[msg.sender].questionCounter == TotalQuestions);
 
         quizzes[msg.sender].ended = true;
-        emit QuizEnded(msg.sender, quizzes[msg.sender].betAmount);
 
         if (quizzes[msg.sender].questionsCorrect == TotalQuestions) {
-            quizzes[msg.sender].reward == quizzes[msg.sender].betAmount;
+            quizzes[msg.sender].reward = quizzes[msg.sender].betAmount;
         } else if (quizzes[msg.sender].questionsCorrect < TotalQuestions / 4) {
-            quizzes[msg.sender].reward == 0;
+            quizzes[msg.sender].reward = 0;
         } else {
-            quizzes[msg.sender].reward == quizzes[msg.sender].betAmount / 2;
+            quizzes[msg.sender].reward = quizzes[msg.sender].betAmount / 2;
         }
 
-        msg.sender.transfer(quizzes[msg.sender].reward);
+        emit QuizEnded(msg.sender, quizzes[msg.sender].reward);
+
+        //msg.sender.transfer(quizzes[msg.sender].reward);
     }
 
     function kill() public {
