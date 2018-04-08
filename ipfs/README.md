@@ -45,4 +45,4 @@ https://github.com/ipfs/js-ipfs-api
 ## Checking Quiz Dataset on IPFS
 
 1. Use browser to check uploaded file content on IPFS using following URL
-* http://ipfs.io/ipfs/<hash>
+  * http://ipfs.io/ipfs/<hash>
