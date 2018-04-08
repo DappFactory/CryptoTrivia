@@ -16,13 +16,7 @@ contract Quiz {
     }
 
     function GetOwner() public view returns(address ownerAddress) {
-        
         return owner;
-    }
-
-    function GetBetAmount(address playerInfo) public view returns(uint amount) {
-
-        return quizzes[playerInfo].betAmount;
     }
 
     mapping(address => QuizInstance) public quizzes;
