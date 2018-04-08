@@ -11,7 +11,6 @@ const quizFile = 'quiz1.csv';
 // Use the `describe` function to specify a suite of tests. We can nest describe statements.
 // Use the `it` function to specify a single test in a suite of tests.
 
-
 // Example code to check array
 describe('Array', function() {
   describe('#indexOf()', function() {

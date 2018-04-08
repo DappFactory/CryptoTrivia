@@ -46,3 +46,7 @@ https://github.com/ipfs/js-ipfs-api
 
 1. Use browser to check uploaded file content on IPFS using following URL
 * http://ipfs.io/ipfs/<hash>
+
+## To run unit tests
+
+    npm run test:ipfs
