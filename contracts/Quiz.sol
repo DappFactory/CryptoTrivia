@@ -1,7 +1,7 @@
 pragma solidity ^0.4.21;
 
 contract Quiz {
-    address owner;
+    address public owner;
     uint public QuestionTime;
     uint public TotalQuestions;
 
@@ -13,6 +13,11 @@ contract Quiz {
         uint[] answers;
         uint reward;
         bool ended;
+    }
+
+    function GetOwner() public view returns(address ownerAddress) {
+        
+        return owner;
     }
 
     function GetBetAmount(address playerInfo) public view returns(uint amount) {

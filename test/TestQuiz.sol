@@ -6,22 +6,13 @@ import "../contracts/Quiz.sol";
 
 contract TestQuiz {
 
-    event Print(uint x);
-    event PrintString(address x);
+    // Testing set bet with correct amount
+    function testBetUsingNewQuiz_CanBeSet() public {
 
-    // Testing retrieval of max number of players
-    function testBetUsingNewQuiz_CanSetBet() public {
         Quiz quiz = new Quiz(1, 5);
-
         quiz.bet(3);
+        address a = quiz.GetOwner();
 
-        uint expected = quiz.GetBetAmount(msg.sender);
-
-        uint tmp = 1;
-        //Print(expected);
-        //PrintString(msg.sender);
-
-        //Assert.equal(3, quiz.GetBetAmount(msg.sender), "Bet amount should be set correctly.");
-        Assert.equal(1, tmp, "fake");
+        Assert.equal(3, quiz.GetBetAmount(a), "Bet amount should be set.");
     }
 }
