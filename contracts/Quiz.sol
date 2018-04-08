@@ -1,150 +1,141 @@
 pragma solidity ^0.4.17;
 
 contract Quiz {
-    address public owner;
-    uint256 public BetAmount;
-    uint256 public QuestionTime;
-    uint256 public TotalQuestions;w
+    address owner;
+    uint public QuestionTime;
+    uint public TotalQuestions;
 
-    Question[] public QuestionList;
-    bool started;
-    uint256 questionCounter = 0;
-    uint256 questionsCorrect = 0;
-
-    enum Answer {A,B,C,D}
-
-    struct Player {
-        uint256 amountBet;
-        uint256 answerSelected;
+    struct QuizInstance {
+        uint betAmount;
+        uint questionsCorrect;
+        uint questionCounter;
+        uint questionStartTime;
+        uint[] answers;
+        uint reward;
+        bool ended;
     }
 
-    struct Question {
-        string Text;
-        Answer Answer;
-        uint256 Time;
-    }
+    mapping(address => QuizInstance) public quizzes;
 
-    event QuestionAnswered(Question q, Answer a);
+    // Event signaling bet placed by participant
+    event BetPlaced(address playerInfo, uint betAmount);
+
+    // Event signaling question and timer started
+    event QuestionStarted(address playerInfo, uint questionNumber);
+
+    // Event signaling question answered
+    event QuestionAnswered(address playerInfo, uint answer);
+
+    // Event signaling quiz ended
+    event QuizEnded(address playerInfo, uint amount);
 
     function Quiz(
-      uint256 totalQuestions,
-      uint256 questionTime) public {
+      uint totalQuestions,
+      uint questionTime) public {
         owner = msg.sender;
         QuestionTime = questionTime;
         TotalQuestions = totalQuestions;
+    }
 
-        initializeQuestions();
+    function bet(uint amount) public payable {
+    /*
+    Function (public) Set the amount to bet for the quiz.
+
+    @output:
+    - None
+    */
+        require(amount > 0);
+        require(quizzes[msg.sender].questionCounter == 0);
+
+        quizzes[msg.sender].betAmount = amount;
+
+        emit BetPlaced(msg.sender, amount);
     }
 
     function start() public {
     /*
-    Function (public) Start the quiz
+    Function (public) Start the quiz if bet placed and reset all question stats.
 
     @output:
     - None
     */
-        require(!started);
+        require(quizzes[msg.sender].betAmount > 0);
 
-        started = true;
+        quizzes[msg.sender].questionsCorrect = 0;
+        quizzes[msg.sender].questionCounter = 0;
+        quizzes[msg.sender].reward = 0;
+        quizzes[msg.sender].ended = false;
 
+        quizzes[msg.sender].answers = new uint[](TotalQuestions);
     }
 
-    function initializeQuestions() private {
+    function startQuestion() public {
     /*
-    Function (public) Initialize the set of questions from database on IPFS
+    Function (public) Start a new question and emit event
 
     @output:
     - None
     */
-        require(TotalQuestions < 20);
+        require(quizzes[msg.sender].betAmount > 0);
+        require(quizzes[msg.sender].questionCounter < TotalQuestions);
 
-        for (uint i = 0; i < TotalQuestions; i++) {
-            // TODO: get questions from IPFS
-            QuestionList.push(Question({
-                Text : 'Question text',
-                Answer : 'Question answer',
-                Time : QuestionTime
-                }));
-        }
+        quizzes[msg.sender].questionStartTime = now;
+
+        emit QuestionStarted(msg.sender, quizzes[msg.sender].questionCounter);
     }
 
-    function getQuestion() public view returns(Question) {
+    function answerQuestion(bool ans) public {
     /*
-    Function (public) Returns the next question
-
-    @output:
-    - Question
-    */
-        require(questionCounter < TotalQuestions);
-
-        return QuestionList[questionCounter];
-    }
-
-    function answerQuestion(Answers answer) public {
-    /*
-    Function (public) Answer the current question, increment question counter and
+    Function (public) Record the result of an answered question and emit event
 
     @output:
     - None
     */
-        require(questionCounter < TotalQuestions);
+        require(quizzes[msg.sender].betAmount > 0);
+        require(quizzes[msg.sender].questionCounter < TotalQuestions);
 
-        if (QuestionList[questionCounter].Answer == answer) {
-            questionsCorrect++;
+        if (now - quizzes[msg.sender].questionStartTime > QuestionTime) {
+            quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter] = 100;
+        }
+        else if (ans) {
+            quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter] = 1;
+            quizzes[msg.sender].questionsCorrect++;
+        }
+        else {
+            quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter] = 0;
         }
 
-        questionCounter++;
+        emit QuestionAnswered(msg.sender, quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter]);
 
-        emit QuestionAnswered(QuestionList[questionCounter], answer);
+        quizzes[msg.sender].questionCounter++;
     }
 
-    function distributePrize(uint256 winningPlayer) public {
+    function distributeReward() public payable {
     /*
-    Function (public) to distribute rewards to the winner of this Quiz game.
-
-    @params:
-    - winningPlayer (uint256) is the winning player
+    Function (public) to distribute reward to the participant.
 
     @output:
     - None
     */
-        address[100] memory winners; // We have to create a temporary in memory array with fixed size
-        uint256 count = 0; // This is the count for the array of winners
-        for(uint256 i = 0; i < players.length; i++){
-           address playerAddress = players[i];
-           if(playerInfo[playerAddress].answerSelected == winningPlayer){
-              winners[count] = playerAddress;
-              count++;
-           }
-           delete playerInfo[playerAddress]; // Delete all the players
+        require(quizzes[msg.sender].betAmount > 0);
+        require(quizzes[msg.sender].questionCounter == TotalQuestions);
+
+        quizzes[msg.sender].ended = true;
+        emit QuizEnded(msg.sender, quizzes[msg.sender].betAmount);
+
+        if (quizzes[msg.sender].questionsCorrect == TotalQuestions) {
+            quizzes[msg.sender].reward == quizzes[msg.sender].betAmount;
+        } else if (quizzes[msg.sender].questionsCorrect < TotalQuestions / 4) {
+            quizzes[msg.sender].reward == 0;
+        } else {
+            quizzes[msg.sender].reward == quizzes[msg.sender].betAmount / 2;
         }
-        players.length = 0; // Delete all the players array
-        uint256 winnerEtherAmount = totalBet / winners.length; // How much each winner gets
-        for(uint256 j = 0; j < count; j++){
-            if(winners[j] != address(0)) // Check that the address in this fixed array is not empty
-                winners[j].transfer(winnerEtherAmount);
-        }
+
+        msg.sender.transfer(quizzes[msg.sender].reward);
     }
 
     function kill() public {
     // necessary to include with all contracts to allow us to destroy if necessary
         if (msg.sender == owner) selfdestruct(owner);
-    }
-
-    function checkPlayerExists(address player) public constant returns(bool){
-    /*
-    Function (public) to determine if player with certain address exists
-    out of the current players in Quiz.
-
-    @params:
-    - player (address) the address of the player to check
-
-    @output:
-    - true/false (bool) for if this player exists or not
-    */
-        for(uint256 i = 0; i < players.length; i++){
-            if(players[i] == player) return true;
-        }
-        return false;
     }
 }
