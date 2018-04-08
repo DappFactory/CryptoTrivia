@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Banner from '../SharedComponents/Banner.js';
-import AppBody from './AppBody.js';
-import StartScreen from '../StartScreen/index.js';
+import Banner from '../SharedComponents/Banner';
+import AppBody from './AppBody';
+import StartScreen from '../StartScreen/index';
 
 export default class App extends React.Component {
 
@@ -13,7 +13,8 @@ export default class App extends React.Component {
   /** waits for all promises to resolve so we don't have to wrap all functions
       in 'if (exists) kind of stuff'
   **/
-  render() {
+
+  renderBanner() {
     if (this.props.isLoading) {
       return (
         <Banner 
@@ -23,23 +24,35 @@ export default class App extends React.Component {
           Is loading...
         </Banner>
       );
-    } else {
+    } else if (this.props.contractError) {
       return (
-        <div>
-          <AppBody>
-            <StartScreen/>
-          </AppBody>
-          { this.props.contractError && 
-            <Banner 
-              bgColor="danger"
-              color="white"
-            >
-              Error in contract
-            </Banner>
-          }
-        </div>
+        <Banner 
+          bgColor="danger"
+          color="white"
+        >
+          Error in contract
+        </Banner>
       );
     }
+  }
+
+  renderStartScreen() {
+    if (!this.props.isLoading) {
+      return (
+        <StartScreen/>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <AppBody>
+          {this.renderStartScreen()}
+        </AppBody>
+        {this.renderBanner()}
+      </div>
+    );
   }
 }
 

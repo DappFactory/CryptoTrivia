@@ -5,9 +5,12 @@ contract Quiz {
     uint256 public minimumBet;
     uint256 public totalBet;
     uint256 public numberOfBets;
+    uint256 public betAmount
+
     uint256 public maxAmountOfBets = 100;
     uint256 public MaxNumberPlayers = 10;
     address[] public players;
+    bool started;
 
     struct Player {
         uint256 amountBet;
@@ -25,6 +28,18 @@ contract Quiz {
         owner = msg.sender;
         minimumBet = _minimumBet;
         MaxNumberPlayers = maxNumberPlayers;
+    }
+
+    function start(uint256 amountBet) public {
+    /*
+    Function (public) Start the quiz
+
+    @output:
+    - None
+    */
+        require(!started);
+        started = true;
+        betAmount = amountBet;
     }
 
     function bet(uint256 answerSelected) public payable {

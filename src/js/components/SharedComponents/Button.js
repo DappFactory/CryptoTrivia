@@ -49,7 +49,9 @@ export default styled.button`
   &:hover {
     background-color: ${props => `${colors[props.hoverColor]}`};
   }
+  
   &:focus {
     outline: none;
+    background-color: ${props => `${colors[props.hoverColor]}`};
   }
 `;

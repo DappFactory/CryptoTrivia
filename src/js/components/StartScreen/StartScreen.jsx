@@ -1,26 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
-import * as colors from '../../styles/colors';
-import InputField from '../SharedComponents/InputField/InputField';
+import InputField from '../SharedComponents/InputField';
 import StartCard from './StartCard';
-import Title from '../SharedComponents/Title';
-import Button from '../SharedComponents/Button';
-
-const CardTitle = Title.extend`
-  margin-bottom: 52px;
-`;
-
-const StartButton = Button.extend`
-  position: absolute;
-  bottom: 52px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const ErrorText = styled.p`
-  text-align: center;
-  color: ${colors.danger}
-`;
+import StartButton from './StartButton';
+import StartTitle from './StartTitle';
+import CONSTANTS from './constants';
 
 export default class StartScreen extends React.Component {
   constructor(props) {
@@ -30,6 +13,7 @@ export default class StartScreen extends React.Component {
     }
   }
 
+  // Keep track of user input bet amount by storing it in state
   onBetAmountChange = (value) => {
     if (value) {
       this.setState({ betAmount: value });
@@ -39,12 +23,17 @@ export default class StartScreen extends React.Component {
   render() {
     const { quizInstance, startQuiz, betError } = this.props;
     const { betAmount } = this.state;
-    const placeholder = betError ? 'Enter a valid number' : 'Amount to bet';
+    
+    // Configure what to render based on errors
+    const placeholder = betError ?
+      CONSTANTS.PLACEHOLDER_ERR :
+      CONSTANTS.PLACEHOLDER;
+
     const color = betError ? 'danger' : 'purple';
 
     return (
       <StartCard>
-        <CardTitle>Configure your quiz</CardTitle>
+        <StartTitle>{CONSTANTS.TITLE}</StartTitle>
         <InputField
           color={color}
           onChange={this.onBetAmountChange}
@@ -59,7 +48,7 @@ export default class StartScreen extends React.Component {
           width="200px"
           onClick={()=> startQuiz(betAmount, quizInstance)}
         >
-          Start
+          {CONSTANTS.START}
         </StartButton>
       </StartCard>
     );

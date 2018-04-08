@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import * as colors from '../../../styles/colors';
+import * as colors from '../../styles/colors';
 
 const InputFieldWrapper = styled.div`
   width: 240px;
