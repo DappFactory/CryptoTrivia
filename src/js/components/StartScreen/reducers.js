@@ -20,7 +20,7 @@ export function startQuiz(betAmount, quizInstance) {
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case START_QUIZ: 
+    case START_QUIZ:
       return {
         ...state,
         betAmount: action.betAmount,
@@ -28,18 +28,18 @@ export default (state = {}, action) => {
         betFormatError: false,
       }
     case BET_ERROR:
-      return { 
-        ...state, 
+      return {
+        ...state,
         betError: action.payload,
         contractError: false,
       }
     case CONTRACT_ERROR:
-      return { 
+      return {
         ...state,
         contractError: action.payload,
         betError: false,
       }
-    
+
     default: return state;
   }
 }

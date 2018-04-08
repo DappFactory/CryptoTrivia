@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Banner from '../SharedComponents/Banner';
 import AppBody from './AppBody';
 import StartScreen from '../StartScreen/index';
+import EndScreen from '../EndScreen/index';
+
 
 export default class App extends React.Component {
 
@@ -49,6 +51,7 @@ export default class App extends React.Component {
       <div>
         <AppBody>
           {this.renderStartScreen()}
+          <EndScreen />
         </AppBody>
         {this.renderBanner()}
       </div>

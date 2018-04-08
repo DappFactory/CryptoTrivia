@@ -1,4 +1,7 @@
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
 import * as colors from '../../styles/colors';
 
 const getSize = (size, customSize) => {
@@ -15,7 +18,7 @@ const getSize = (size, customSize) => {
   }
 }
 
-export default styled.div`
+const Card = styled.div`
   width: ${props => getSize(props.size, props.width)};
   height:${props => getSize(props.size, props.height)};
   border-radius: 8px;
@@ -25,3 +28,15 @@ export default styled.div`
   position: relative;
   padding: 32px;
 `;
+
+const CardComponent = (props) => (
+  <Card size={props.size}>
+    {props.children}
+  </Card>
+);
+
+CardComponent.propTypes = {
+  children: PropTypes.node,
+};
+
+export default CardComponent;

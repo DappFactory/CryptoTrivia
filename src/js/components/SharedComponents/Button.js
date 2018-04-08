@@ -46,6 +46,11 @@ export default styled.button`
   border-radius: 4px;
   cursor: pointer;
 
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  
   &:hover {
     background-color: ${props => `${colors[props.hoverColor]}`};
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import InputField from '../SharedComponents/InputField';
-import StartCard from './StartCard';
-import StartButton from './StartButton';
+import Card from '../SharedComponents/Card';;
+import Button from '../SharedComponents/Button';
 import StartTitle from './StartTitle';
 import CONSTANTS from './constants';
 
@@ -32,14 +32,14 @@ export default class StartScreen extends React.Component {
     const color = betError ? 'danger' : 'purple';
 
     return (
-      <StartCard>
+      <Card size="medium">
         <StartTitle>{CONSTANTS.TITLE}</StartTitle>
         <InputField
           color={color}
           onChange={this.onBetAmountChange}
           placeholder={placeholder}
         />
-        <StartButton 
+        <Button 
           bgColor="darkPink" 
           hoverColor="darkerPink"
           color="white"
@@ -49,8 +49,8 @@ export default class StartScreen extends React.Component {
           onClick={()=> startQuiz(betAmount, quizInstance)}
         >
           {CONSTANTS.START}
-        </StartButton>
-      </StartCard>
+        </Button>
+      </Card>
     );
   }
 }
