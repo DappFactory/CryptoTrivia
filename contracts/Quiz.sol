@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.21;
 
 contract Quiz {
     address owner;
@@ -13,6 +13,11 @@ contract Quiz {
         uint[] answers;
         uint reward;
         bool ended;
+    }
+
+    function GetBetAmount(address playerInfo) public view returns(uint amount) {
+
+        return quizzes[playerInfo].betAmount;
     }
 
     mapping(address => QuizInstance) public quizzes;
