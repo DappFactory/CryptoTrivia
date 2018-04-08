@@ -7,7 +7,8 @@ import {
 // props for App Component
 const mapStateToProps = state =>  ({
   isLoading: state.app.isLoading,
-  quizInstance: state.app.quizInstance
+  quizInstance: state.app.quizInstance,
+  contractError: state.start.contractError,
 })
 
 //functions

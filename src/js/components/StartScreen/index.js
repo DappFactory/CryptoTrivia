@@ -6,11 +6,12 @@ import {
 
 //functions
 const mapDispatchToProps = dispatch => ({
-  startQuiz: betAmount => dispatch(startQuiz(betAmount)),
+  startQuiz: (betAmount, quizInstance) => dispatch(startQuiz(betAmount, quizInstance)),
 });
 
 const mapStateToProps = state => ({
   betError: state.start.betError,
+  quizInstance: state.app.quizInstance,
 });
 
 export default connect(

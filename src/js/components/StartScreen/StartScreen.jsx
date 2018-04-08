@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from 'styled-components';
+import * as colors from '../../styles/colors';
 import InputField from '../SharedComponents/InputField/InputField';
 import StartCard from './StartCard';
 import Title from '../SharedComponents/Title';
@@ -13,6 +15,11 @@ const StartButton = Button.extend`
   bottom: 52px;
   left: 50%;
   transform: translateX(-50%);
+`;
+
+const ErrorText = styled.p`
+  text-align: center;
+  color: ${colors.danger}
 `;
 
 export default class StartScreen extends React.Component {
@@ -30,9 +37,11 @@ export default class StartScreen extends React.Component {
   }
 
   render() {
-    const placeholder = this.props.betError ? 'Enter a valid number' : 'Amount to bet';
-    const color = this.props.betError ? 'danger' : 'purple';
-    
+    const { quizInstance, startQuiz, betError } = this.props;
+    const { betAmount } = this.state;
+    const placeholder = betError ? 'Enter a valid number' : 'Amount to bet';
+    const color = betError ? 'danger' : 'purple';
+
     return (
       <StartCard>
         <CardTitle>Configure your quiz</CardTitle>
@@ -48,7 +57,7 @@ export default class StartScreen extends React.Component {
           height="50px"
           size="xl"
           width="200px"
-          onClick={()=> this.props.startQuiz(this.state.betAmount)}
+          onClick={()=> startQuiz(betAmount, quizInstance)}
         >
           Start
         </StartButton>

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToggleAppInfo from '../ToggleAppInfo';
-import Loader from '../SharedComponents/Loader.js';
-import ButtonWrapper from './ButtonWrapper.js';
+import Banner from '../SharedComponents/Banner.js';
 import AppBody from './AppBody.js';
 import StartScreen from '../StartScreen/index.js';
 
@@ -18,30 +16,28 @@ export default class App extends React.Component {
   render() {
     if (this.props.isLoading) {
       return (
-        <Loader>Is loading...</Loader>
+        <Banner 
+          bgColor="black"
+          color="white"
+        >
+          Is loading...
+        </Banner>
       );
     } else {
       return (
-        <AppBody>
-          <StartScreen/>
-          {/*
-          <ButtonWrapper>
-            <ToggleAppInfo
-              getMethod="getMaxNumberPlayers"
-              hideLabel="Hide Max Players"
-              showLabel="Show Max Players"
-              quizInstance={this.props.quizInstance}
-            />
-
-            <ToggleAppInfo
-              getMethod="getTotalBet"
-              hideLabel="Hide Pot Size"
-              showLabel="Show Pot Size"
-              quizInstance={this.props.quizInstance}
-            />
-          </ButtonWrapper>
-          */}
-        </AppBody>
+        <div>
+          <AppBody>
+            <StartScreen/>
+          </AppBody>
+          { this.props.contractError && 
+            <Banner 
+              bgColor="danger"
+              color="white"
+            >
+              Error in contract
+            </Banner>
+          }
+        </div>
       );
     }
   }
