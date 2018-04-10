@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ToggleAppInfo from '../ToggleAppInfo';
-import Loader from '../SharedComponents/Loader.js';
-import ButtonWrapper from './ButtonWrapper.js';
-import AppBody from './AppBody.js';
+import ButtonWrapper from './ButtonWrapper';
 import Quiz from '../Quiz';
+import Banner from '../SharedComponents/Banner';
+import AppBody from './AppBody';
+import StartScreen from '../StartScreen';
+import EndScreen from '../EndScreen';
+
 
 export default class App extends React.Component {
 
@@ -15,20 +18,46 @@ export default class App extends React.Component {
   /** waits for all promises to resolve so we don't have to wrap all functions
       in 'if (exists) kind of stuff'
   **/
-  render() {
+
+  renderBanner() {
     if (this.props.isLoading) {
       return (
-        <Loader>Is loading...</Loader>
+        <Banner
+          bgColor="black"
+          color="white"
+        >
+          Is loading...
+        </Banner>
       );
-    } else {
+    } else if (this.props.contractError) {
       return (
-        <AppBody>
-          <ButtonWrapper>
-            <Quiz />
-          </ButtonWrapper>
-        </AppBody>
+        <Banner
+          bgColor="danger"
+          color="white"
+        >
+          Error in contract
+        </Banner>
       );
     }
+  }
+
+  renderStartScreen() {
+    if (!this.props.isLoading) {
+      return (
+        <StartScreen />
+      );
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <AppBody>          
+          <Quiz />
+        </AppBody>
+        {this.renderBanner()}
+      </div>
+    );
   }
 }
 

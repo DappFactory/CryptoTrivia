@@ -1,4 +1,4 @@
-import Button from '../SharedComponents/Button.js';
+import Button from './QuizButton.js';
 
 export default Button.extend`
   margin-top: 40px;
@@ -12,5 +12,5 @@ export default Button.extend`
   font-weight: bold;
   color: darkGray;
   font-size: 12px;
-  width: 320px;
+  width: 43%;
 `;

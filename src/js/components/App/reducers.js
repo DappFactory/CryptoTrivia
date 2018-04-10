@@ -6,11 +6,13 @@ export const QUIZ_INSTANCE = 'APP/QUIZ_INSTANCE';
 export const IS_LOADING = 'APP/IS_LOADING';
 export const ERROR = 'APP/ERROR';
 export const USER_ADDRESS = 'APP/USER_ADDRESS';
+export const CHANGE_VIEW = 'APP/CHANGE_VIEW';
 
 const initialState = {
   quizInstance: null,
   isLoading: true,
-  userAddress: null
+  userAddress: null,
+  view: 'start'
 };
 
 function getWeb3() {
@@ -33,6 +35,12 @@ function getWeb3() {
       }
     })
   })
+}
+
+export function changeView(view) {
+  return (dispatch) => {
+    dispatch({ type: CHANGE_VIEW, payload: view })
+  }
 }
 
 // right now just does quiz, but can initialize all contracts here to pass as props
@@ -72,6 +80,7 @@ export default (state = initialState, action) => {
     case IS_LOADING: return { ...state, isLoading: action.payload }
     case ERROR: return { ...state, isLoading: action.payload }
     case USER_ADDRESS: return { ...state, userAddress: action.payload }
+    case CHANGE_VIEW: return { ...state, view: action.payload }
 
     default: return state
   }

@@ -59,12 +59,12 @@ export default class Quiz extends React.Component {
     if (question && numQuestions > 0) {
       return (
         <div>
-          <Card>
+          <Card width="800px" height="100px">
             <Timer> {timer} seconds </Timer>
             <NumQuestions> {index+1} / {numQuestions} Questions </NumQuestions>
             <Question> {question.question} </Question>
           </Card>
-          <div>
+          <div style={{width: '800px', marginLeft: 'auto', marginRight: 'auto'}}>
             {(answer === 'A')
             ? <AnswerButtonClicked onClick={(e) => this.handleClick(e, 'A')}> {question.A} </AnswerButtonClicked>
             : <AnswerButton onClick={(e) => this.handleClick(e, 'A')}> {question.A} </AnswerButton>}
@@ -72,7 +72,7 @@ export default class Quiz extends React.Component {
             ? <AnswerButtonClicked onClick={(e) => this.handleClick(e, 'B')}> {question.B} </AnswerButtonClicked>
             : <AnswerButton onClick={(e) => this.handleClick(e, 'B')}> {question.B} </AnswerButton>}
           </div>
-          <div>
+          <div style={{width: '800px', marginLeft: 'auto', marginRight: 'auto'}}>
             {(answer === 'C')
             ? <AnswerButtonClicked onClick={(e) => this.handleClick(e, 'C')}> {question.C} </AnswerButtonClicked>
             : <AnswerButton onClick={(e) => this.handleClick(e, 'C')}> {question.C} </AnswerButton>}
