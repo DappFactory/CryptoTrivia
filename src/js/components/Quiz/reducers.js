@@ -93,7 +93,7 @@ export function answerQuestion(question, answer) {
     const isCorrect = answer === question.answer;
     const newIndex = getState().quiz.index + 1;
 
-    quizInstance.answerQuestion(isCorrect, { from: getState().app.userAddress })
+    quizInstance.answerQuestion(isCorrect, { from: getState().app.userAddress, gas: 200 })
 
     if (newIndex >= getState().quiz.questions.length) {
       dispatch({ type: END_QUIZ, payload: true });

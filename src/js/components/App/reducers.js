@@ -49,7 +49,7 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.at('0x1f85d245a4a922a5b6f20419dc713afb3aa743e8').then(instance => {
+      quizContract.at('0x2336433bf2e08e2a03594f39b96736877eab3bac').then(instance => {
         console.log(instance);
         // ADD: dispatch here and save it in the state.
         dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
