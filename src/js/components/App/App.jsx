@@ -19,7 +19,7 @@ export default class App extends React.Component {
   renderBanner() {
     if (this.props.isLoading) {
       return (
-        <Banner 
+        <Banner
           bgColor="black"
           color="white"
         >
@@ -28,7 +28,7 @@ export default class App extends React.Component {
       );
     } else if (this.props.contractError) {
       return (
-        <Banner 
+        <Banner
           bgColor="danger"
           color="white"
         >
@@ -46,12 +46,15 @@ export default class App extends React.Component {
     }
   }
 
+  renderEndScreen() {
+    return <EndScreen />
+  }
+
   render() {
     return (
       <div>
         <AppBody>
           {this.renderStartScreen()}
-          <EndScreen />
         </AppBody>
         {this.renderBanner()}
       </div>

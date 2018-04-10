@@ -11,6 +11,7 @@ export default class StartScreen extends React.Component {
     this.state = {
       betAmount: null
     }
+    this.props.startQuiz(this.props.quizInstance, this.props.userAddress);
   }
 
   // Keep track of user input bet amount by storing it in state
@@ -21,9 +22,15 @@ export default class StartScreen extends React.Component {
   }
 
   render() {
-    const { quizInstance, startQuiz, betError } = this.props;
+    const {
+      quizInstance,
+      placeBet,
+      betError,
+      userAddress,
+    } = this.props;
+
     const { betAmount } = this.state;
-    
+
     // Configure what to render based on errors
     const placeholder = betError ?
       CONSTANTS.PLACEHOLDER_ERR :
@@ -39,14 +46,14 @@ export default class StartScreen extends React.Component {
           onChange={this.onBetAmountChange}
           placeholder={placeholder}
         />
-        <Button 
-          bgColor="darkPink" 
+        <Button
+          bgColor="darkPink"
           hoverColor="darkerPink"
           color="white"
           height="50px"
           size="xl"
           width="200px"
-          onClick={()=> startQuiz(betAmount, quizInstance)}
+          onClick={()=> placeBet(betAmount, quizInstance, userAddress)}
         >
           {CONSTANTS.START}
         </Button>
