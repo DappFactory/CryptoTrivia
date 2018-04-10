@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToggleAppInfo from '../ToggleAppInfo';
-import ButtonWrapper from './ButtonWrapper';
 import Quiz from '../Quiz';
 import Banner from '../SharedComponents/Banner';
 import AppBody from './AppBody';
@@ -52,8 +50,10 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <AppBody>          
-          <Quiz />
+        <AppBody>
+          {(this.props.view === 'start' && !this.props.contractError) && <StartScreen changeView={this.props.changeView} />}
+          {(!this.props.contractError && this.props.view === 'quiz') && <Quiz changeView={this.props.changeView} /> }
+          {(this.props.view === 'end' && !this.props.contractError) && <EndScreen changeView={this.props.changeView} /> }
         </AppBody>
         {this.renderBanner()}
       </div>
@@ -64,5 +64,7 @@ export default class App extends React.Component {
 App.propTypes = {
   isLoading: PropTypes.bool,
   quizInstance: PropTypes.object,
-  initializeAllContracts: PropTypes.func
+  view: PropTypes.string,
+  initializeAllContracts: PropTypes.func,
+  changeView: PropTypes.func
 };

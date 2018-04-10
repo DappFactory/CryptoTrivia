@@ -38,7 +38,7 @@ export default class Quiz extends React.Component {
 
   answerAndGetNextQuestion(e) {
     e.preventDefault();
-    this.props.answerQuestion(this.props.question, this.props.answer);
+    this.props.answerQuestion(this.props.question, this.props.answer, this.props.changeView);
   }
 
   handleClick(e, answer) {

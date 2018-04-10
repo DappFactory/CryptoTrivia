@@ -10,6 +10,7 @@ export const INCREASE_SCORE = 'QUIZ/INCREASE_SCORE';
 export const INCREASE_INDEX = 'QUIZ/INCREASE_INDEX';
 export const CHOOSE_ANSWER = 'QUIZ/CHOOSE_ANSWER';
 export const END_QUIZ = 'QUIZ/END_QUIZ';
+export const QUIZ_ERROR = 'QUIZ/ERRORS';
 
 const initialState = {
   questions: [],
@@ -18,7 +19,8 @@ const initialState = {
   timer: null,
   numQuestions: 20, // can probably make this dynamic based on user input
   answer: '',
-  endQuiz: false
+  endQuiz: false,
+  error: ''
 };
 
 let timerFunc;
@@ -60,16 +62,9 @@ export function initializeQuestions() {
           dispatch({ type: GET_TIMER, payload: 5 });
         });
       })
-  }
-}
-
-
-/* function that gets the next question */
-function getQuestion() {
-  return (dispatch, getState) => {
-    const quizState = getState().quiz;
-
-    dispatch({ type: GET_QUESTION, payload: quizState.questions[quizState.index] });
+      .catch((error) => {
+        dispatch({ type: QUIZ_ERROR, payload: error });
+      })
   }
 }
 
@@ -87,16 +82,21 @@ export function changeAnswer(answer) {
   }
 }
 
-export function answerQuestion(question, answer) {
+export function answerQuestion(question, answer, changeView) {
   return (dispatch, getState) => {
     const quizInstance = getState().app.quizInstance;
     const isCorrect = answer === question.answer;
     const newIndex = getState().quiz.index + 1;
 
     quizInstance.answerQuestion(isCorrect, { from: getState().app.userAddress, gas: 200 })
+      .then(result => console.log(result))
+      .catch((error) => {
+        dispatch({ type: QUIZ_ERROR, payload: error });
+      })
 
     if (newIndex >= getState().quiz.questions.length) {
       dispatch({ type: END_QUIZ, payload: true });
+      changeView('end')
       clearInterval(timerFunc);
     } else {
       dispatch({ type: GET_TIMER, payload: 5 });
@@ -117,6 +117,7 @@ export default (state = initialState, action) => {
     case INCREASE_INDEX: return { ...state, index: action.payload }
     case CHOOSE_ANSWER: return { ...state, answer: action.payload }
     case END_QUIZ: return { ...state, endQuiz: action.payload }
+    case QUIZ_ERROR: return { ...state, error: action.payload }
     default: return state
   }
 }

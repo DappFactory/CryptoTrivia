@@ -21,9 +21,9 @@ export default class StartScreen extends React.Component {
   }
 
   render() {
-    const { quizInstance, startQuiz, betError } = this.props;
+    const { quizInstance, startQuiz, betError, changeView } = this.props;
     const { betAmount } = this.state;
-    
+
     // Configure what to render based on errors
     const placeholder = betError ?
       CONSTANTS.PLACEHOLDER_ERR :
@@ -39,14 +39,14 @@ export default class StartScreen extends React.Component {
           onChange={this.onBetAmountChange}
           placeholder={placeholder}
         />
-        <Button 
-          bgColor="darkPink" 
+        <Button
+          bgColor="darkPink"
           hoverColor="darkerPink"
           color="white"
           height="50px"
           size="xl"
           width="200px"
-          onClick={()=> startQuiz(betAmount, quizInstance)}
+          onClick={()=> startQuiz(betAmount, quizInstance, changeView)}
         >
           {CONSTANTS.START}
         </Button>
