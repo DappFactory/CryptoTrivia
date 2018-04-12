@@ -6,17 +6,14 @@ export const BET_RECEIVED ='QUIZ/BET_RECEIVED';
 
 export function placeBet(betAmount, quizInstance, userAddress) {
   return (dispatch) => {
-    console.log(userAddress);
     if (!betAmount || isNaN(betAmount) || betAmount <= 0) {
       dispatch({ type: BET_ERROR, payload: true });
     } else {
       quizInstance.bet(betAmount, { from: userAddress })
         .then((res) => {
-          console.log(res);
           dispatch({ type: PLACE_BET, betAmount });
         })
         .catch((error) => {
-          console.log(error);
           dispatch({ type: CONTRACT_ERROR, payload: error });
         })
     }
@@ -25,24 +22,15 @@ export function placeBet(betAmount, quizInstance, userAddress) {
 
 export function startQuiz(quizInstance, userAddress) {
   return (dispatch) => {
-    console.log('init start quiz listener');
-    quizInstance.BetPlaced().watch((err, res) => {
-      console.log('=== bet placed ===');
-      console.log(res);
-      console.log(err);
+    quizInstance.BetPlaced((err, res) => {
       if (!err) {
-        console.log('=== about to start');
-        const res = quizInstance.start.call({ from: userAddress });
-        console.log(res);
-          // .then((result) => {
-          //   console.log('=== quiz started ===');
-          //   console.log(result);
-          //   dispatch({ type: QUIZ_STARTED });
-          // })
-          // .catch((error) => {
-          //   console.log(error);
-          //   dispatch({ type: CONTRACT_ERROR, payload: error });
-          // });
+        quizInstance.start({ from: userAddress })
+          .then((result) => {
+            dispatch({ type: QUIZ_STARTED });
+          })
+          .catch((error) => {
+            dispatch({ type: CONTRACT_ERROR, payload: error });
+          });
       }
     });
   }

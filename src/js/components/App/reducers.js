@@ -17,13 +17,10 @@ function getWeb3() {
     window.addEventListener('load', function() {
       let web3 = window.web3;
       if (typeof web3 !== 'undefined') {
-
-        // ADD: Added this line here to extract default account
+        // Extract the default account here. Metamask with web3 does not have the
+        // default account parameter.
         const defaultAccount = web3.eth.defaultAccount;
-
         web3 = new Web3(web3.currentProvider);
-
-        // ADD: Pass this defaultAccount
         resolve({ web3: web3, defaultAccount })
       } else {
         const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
@@ -49,8 +46,6 @@ export function initializeAllContracts() {
       }
 
       quizContract.deployed().then(instance => {
-        console.log(instance);
-        // ADD: dispatch here and save it in the state.
         dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
         dispatch({ type: QUIZ_INSTANCE, payload: instance })
         dispatch({ type: IS_LOADING, payload: false })
