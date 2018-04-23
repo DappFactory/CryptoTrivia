@@ -13,11 +13,12 @@ Mnemonic:      <SOME RANDOMLY GENERATED MNEMONIC SHOULD APPEAR HERE>
 stamp
 Base HD Path:  m/44'/60'/0'/0/{account_index}
 ```
-3. Next deploy our Contract to the block chain by running `./run.sh`
-4. Finally we can run our client `npm run start`
+3. Next deploy our Contract to the block chain by running `./run.sh`.
+4. Install the node dependencies `npm install`.
+4. Finally we can run our client `npm run start`.
 
 ## Configuring Metamask
-1. Open up the Metamask chrome extension
+1. Open up the Metamask chrome extension.
 2. Click the **Network** dropdown on the top left, choose **Custom RPC**, and enter `http://127.0.0.1:7545` as the new RPC URL.
 * This step only needs to be completed the first time deploying a blockchain to a new address.
 * If you have already set up the blockchain to an address before, the connection will appear as **Private Network**.
