@@ -13,7 +13,7 @@ Mnemonic:      <SOME RANDOMLY GENERATED MNEMONIC SHOULD APPEAR HERE>
 stamp
 Base HD Path:  m/44'/60'/0'/0/{account_index}
 ```
-3. Next deploy our Contract to the block chain by running `./bash.sh`
+3. Next deploy our Contract to the block chain by running `./run.sh`
 4. Finally we can run our client `npm run start`
 
 ## Configuring Metamask
