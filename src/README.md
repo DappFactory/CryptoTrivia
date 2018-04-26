@@ -1,15 +1,16 @@
 # Setting up the client
 
 ## Setting up development blockchain
-Make sure ganache-cli is installed.
-
-    npm install -g ganache-cli
-
-1. First make sure we have our local blockchain up and running.
+1. Install dependencies.
+```
+npm install -g ganache-cli
+npm install
+```
+2. Start the local blockchain.
 ```
 ganache-cli -p 7545 -i 8887
 ```
-2. Save the Mnemonic that you get as a result from running the blockchain.
+3. Save the Mnemonic that you get as a result from running the blockchain.
 ```
 HD Wallet
 ==================
@@ -17,9 +18,8 @@ Mnemonic:      <SOME RANDOMLY GENERATED MNEMONIC SHOULD APPEAR HERE>
 stamp
 Base HD Path:  m/44'/60'/0'/0/{account_index}
 ```
-3. Next deploy our Contract to the block chain by running `./run.sh`.
-4. Install the node dependencies `npm install`.
-4. Finally we can run our client `npm run start`.
+4. Next deploy our Contract to the block chain by running `./run.sh`.
+5. Finally we can run our client `npm run start`.
 
 ## Configuring Metamask
 1. Open up the Metamask chrome extension.
