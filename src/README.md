@@ -34,8 +34,8 @@ Metamask should now be linked to our local blockchain. I've noticed that the doc
 Another thing to add, it seems like some properties within the window.web3 object dissapear after we create a new web3 object with the current provider - Metamask.
 
 ## Notes:
-1. Metamask connection needs to start AFTER you run npm run start
-In future builds, hopefully metamask is continuously querying the connection, but for now this is important to note.
+1. ~~Metamask connection needs to start AFTER you run npm run start
+In future builds, hopefully metamask is continuously querying the connection, but for now this is important to note.~~
 
 Resource:
 http://truffleframework.com/docs/advanced/truffle-with-metamask
