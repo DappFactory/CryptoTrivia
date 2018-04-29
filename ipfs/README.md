@@ -48,5 +48,4 @@ https://github.com/ipfs/js-ipfs-api
 * http://ipfs.io/ipfs/<hash>
 
 ## To run unit tests
-
-    npm run test:ipfs
+1. Don't need to have anything currently running. Only need to run `npm run test:ipfs`
