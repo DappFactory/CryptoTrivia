@@ -9,7 +9,7 @@ export function startQuiz(betAmount, quizInstance, changeView) {
     if (!betAmount || isNaN(betAmount) || betAmount <= 0) {
       dispatch({ type: BET_ERROR, payload: true });
     } else {
-      dispatch({ type: START_QUIZ, betAmount });
+      dispatch({ type: QUIZ_STARTED, payload: '' });
       changeView('quiz')
     }
   }

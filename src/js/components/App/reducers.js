@@ -3,7 +3,6 @@ import TruffleContract from 'truffle-contract';
 import QuizContract from '../../../../build/contracts/Quiz.json';
 
 export const QUIZ_INSTANCE = 'APP/QUIZ_INSTANCE';
-export const USER_ADDRESS = 'APP/USER_ADDRESS';
 export const IS_LOADING = 'APP/IS_LOADING';
 export const ERROR = 'APP/ERROR';
 export const USER_ADDRESS = 'APP/USER_ADDRESS';
@@ -55,7 +54,7 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.at('0xd1966336159a2c0a020d467a080edd2646048817').then(instance => {
+      quizContract.at('0x83fd02ac0760fad1842cbe5f153ce154dc91f4fc').then(instance => {
         console.log(instance);
         // ADD: dispatch here and save it in the state.
         dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })

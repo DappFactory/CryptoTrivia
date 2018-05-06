@@ -26,7 +26,8 @@ export default class StartScreen extends React.Component {
       placeBet,
       betError,
       userAddress,
-      changeView
+      changeView,
+      startQuiz
     } = this.props;
 
     const { betAmount } = this.state;
