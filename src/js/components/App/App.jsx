@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Quiz from '../Quiz';
 import Banner from '../SharedComponents/Banner';
 import AppBody from './AppBody';
-import StartScreen from '../StartScreen/index';
-import EndScreen from '../EndScreen/index';
+import StartScreen from '../StartScreen';
+import EndScreen from '../EndScreen';
 
 
 export default class App extends React.Component {
@@ -26,7 +27,7 @@ export default class App extends React.Component {
           Is loading...
         </Banner>
       );
-    } else if (this.props.contractError) {
+    } else if (this.props.contractError || this.props.quizError) {
       return (
         <Banner
           bgColor="danger"
@@ -41,7 +42,7 @@ export default class App extends React.Component {
   renderStartScreen() {
     if (!this.props.isLoading) {
       return (
-        <StartScreen/>
+        <StartScreen />
       );
     }
   }
@@ -51,10 +52,13 @@ export default class App extends React.Component {
   }
 
   render() {
+    const hasError = this.props.contractError || this.props.quizError;
     return (
       <div>
         <AppBody>
-          {this.renderStartScreen()}
+          {(!hasError && this.props.view === 'start') && <StartScreen changeView={this.props.changeView} />}
+          {(!hasError && this.props.view === 'quiz') && <Quiz changeView={this.props.changeView} /> }
+          {(!hasError && this.props.view === 'end') && <EndScreen changeView={this.props.changeView} /> }
         </AppBody>
         {this.renderBanner()}
       </div>
@@ -65,5 +69,7 @@ export default class App extends React.Component {
 App.propTypes = {
   isLoading: PropTypes.bool,
   quizInstance: PropTypes.object,
-  initializeAllContracts: PropTypes.func
+  view: PropTypes.string,
+  initializeAllContracts: PropTypes.func,
+  changeView: PropTypes.func
 };

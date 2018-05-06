@@ -5,7 +5,7 @@ import { startQuiz, placeBet } from './reducers';
 // Functions to pass to our component
 const mapDispatchToProps = dispatch => ({
   placeBet: (betAmount, quizInstance, userAddress) => dispatch(placeBet(betAmount, quizInstance, userAddress)),
-  startQuiz: (quizInstance, userAddress) => dispatch(startQuiz(quizInstance, userAddress)),
+  startQuiz: (quizInstance, userAddress) => dispatch(startQuiz(betAmount, quizInstance, changeView)),
 });
 
 // Props to pass to our component

@@ -11,9 +11,8 @@ export default class StartScreen extends React.Component {
     this.state = {
       betAmount: null
     }
-    this.props.startQuiz(this.props.quizInstance, this.props.userAddress);
+    // this.props.startQuiz(this.props.quizInstance, this.props.userAddress);
   }
-
   // Keep track of user input bet amount by storing it in state
   onBetAmountChange = (value) => {
     if (value) {
@@ -27,6 +26,7 @@ export default class StartScreen extends React.Component {
       placeBet,
       betError,
       userAddress,
+      changeView
     } = this.props;
 
     const { betAmount } = this.state;
@@ -53,7 +53,7 @@ export default class StartScreen extends React.Component {
           height="50px"
           size="xl"
           width="200px"
-          onClick={()=> placeBet(betAmount, quizInstance, userAddress)}
+          onClick={()=> startQuiz(betAmount, quizInstance, changeView)}
         >
           {CONSTANTS.START}
         </Button>

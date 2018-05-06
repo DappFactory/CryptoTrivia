@@ -6,10 +6,14 @@ export const QUIZ_INSTANCE = 'APP/QUIZ_INSTANCE';
 export const USER_ADDRESS = 'APP/USER_ADDRESS';
 export const IS_LOADING = 'APP/IS_LOADING';
 export const ERROR = 'APP/ERROR';
+export const USER_ADDRESS = 'APP/USER_ADDRESS';
+export const CHANGE_VIEW = 'APP/CHANGE_VIEW';
 
 const initialState = {
   quizInstance: null,
-  isLoading: true
+  isLoading: true,
+  userAddress: null,
+  view: 'start'
 };
 
 function getWeb3() {
@@ -31,6 +35,12 @@ function getWeb3() {
   })
 }
 
+export function changeView(view) {
+  return (dispatch) => {
+    dispatch({ type: CHANGE_VIEW, payload: view })
+  }
+}
+
 // right now just does quiz, but can initialize all contracts here to pass as props
 export function initializeAllContracts() {
   return (dispatch) => {
@@ -45,7 +55,9 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.deployed().then(instance => {
+      quizContract.at('0xd1966336159a2c0a020d467a080edd2646048817').then(instance => {
+        console.log(instance);
+        // ADD: dispatch here and save it in the state.
         dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
         dispatch({ type: QUIZ_INSTANCE, payload: instance })
         dispatch({ type: IS_LOADING, payload: false })
@@ -66,6 +78,8 @@ export default (state = initialState, action) => {
     case USER_ADDRESS: return { ...state, userAddress: action.payload }
     case IS_LOADING: return { ...state, isLoading: action.payload }
     case ERROR: return { ...state, isLoading: action.payload }
+    case USER_ADDRESS: return { ...state, userAddress: action.payload }
+    case CHANGE_VIEW: return { ...state, view: action.payload }
 
     default: return state
   }

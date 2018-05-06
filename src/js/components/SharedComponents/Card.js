@@ -19,8 +19,8 @@ const getSize = (size, customSize) => {
 }
 
 const Card = styled.div`
-  width: ${props => getSize(props.size, props.width)};
-  height:${props => getSize(props.size, props.height)};
+  width: ${props => (props.wdith) ? props.width : getSize(props.size, props.width)};
+  height:${props => (props.height) ? props.height : getSize(props.size, props.height) };
   border-radius: 8px;
   background-color: ${colors.snow};
   margin: 50px auto;
@@ -30,7 +30,7 @@ const Card = styled.div`
 `;
 
 const CardComponent = (props) => (
-  <Card size={props.size}>
+  <Card size={props.size} height={props.height} width={props.width}>
     {props.children}
   </Card>
 );
