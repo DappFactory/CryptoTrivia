@@ -1,17 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import InputField from '../SharedComponents/InputField';
 import Card from '../SharedComponents/Card';;
 import Button from '../SharedComponents/Button';
-import StartTitle from './StartTitle';
+import StartTitle from '../SharedComponents/StartTitle';
 import CONSTANTS from './constants';
 
-export default class StartScreen extends React.Component {
+export default class PlaceBet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       betAmount: null
     }
-    // this.props.startQuiz(this.props.quizInstance, this.props.userAddress);
   }
   // Keep track of user input bet amount by storing it in state
   onBetAmountChange = (value) => {
@@ -25,13 +25,11 @@ export default class StartScreen extends React.Component {
       quizInstance,
       placeBet,
       betError,
-      userAddress,
       changeView,
-      startQuiz
+      userAddress,
     } = this.props;
 
     const { betAmount } = this.state;
-
     // Configure what to render based on errors
     const placeholder = betError ?
       CONSTANTS.PLACEHOLDER_ERR :
@@ -54,11 +52,19 @@ export default class StartScreen extends React.Component {
           height="50px"
           size="xl"
           width="200px"
-          onClick={()=> startQuiz(betAmount, quizInstance, changeView)}
+          onClick={()=> placeBet(betAmount, quizInstance, userAddress, changeView)}
         >
-          {CONSTANTS.START}
+          {CONSTANTS.PLACE_BET}
         </Button>
       </Card>
     );
   }
+}
+
+PlaceBet.propTypes = {
+  userAddress: PropTypes.string,
+  quizInstance: PropTypes.object,
+  placeBet: PropTypes.func.isRequired,
+  betError: PropTypes.bool,
+  changeView: PropTypes.func,
 }

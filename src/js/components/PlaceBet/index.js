@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
-import StartScreen from './StartScreen';
-import { startQuiz, placeBet } from './reducers';
+import PlaceBetScreen from './PlaceBet';
+import { placeBet } from './reducers';
 
 // Functions to pass to our component
 const mapDispatchToProps = dispatch => ({
-  placeBet: (betAmount, quizInstance, userAddress) => dispatch(placeBet(betAmount, quizInstance, userAddress)),
-  startQuiz: (betAmount, quizInstance, changeView) => dispatch(startQuiz(betAmount, quizInstance, changeView)),
+  placeBet: (betAmount, quizInstance, userAddress, changeView) => dispatch(placeBet(betAmount, quizInstance, userAddress, changeView)),
 });
 
 // Props to pass to our component
@@ -18,4 +17,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(StartScreen);
+)(PlaceBetScreen);

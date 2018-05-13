@@ -12,7 +12,7 @@ const initialState = {
   quizInstance: null,
   isLoading: true,
   userAddress: null,
-  view: 'start'
+  view: 'placebet'
 };
 
 function getWeb3() {
@@ -23,6 +23,15 @@ function getWeb3() {
         // Extract the default account here. Metamask with web3 does not have the
         // default account parameter.
         const defaultAccount = web3.eth.defaultAccount;
+
+        /**
+        console.log("default account: " + defaultAccount);
+
+        const balance = web3.eth.getBalance('0x262453a7b5c8a14ef21cc5e4bd0da87ced975235');
+        console.log("balance: " + balance);
+
+        /** */
+
         web3 = new Web3(web3.currentProvider);
         resolve({ web3: web3, defaultAccount })
       } else {
@@ -54,8 +63,7 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.at('0x83fd02ac0760fad1842cbe5f153ce154dc91f4fc').then(instance => {
-        console.log(instance);
+      quizContract.deployed().then(instance => {
         // ADD: dispatch here and save it in the state.
         dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
         dispatch({ type: QUIZ_INSTANCE, payload: instance })
@@ -77,7 +85,6 @@ export default (state = initialState, action) => {
     case USER_ADDRESS: return { ...state, userAddress: action.payload }
     case IS_LOADING: return { ...state, isLoading: action.payload }
     case ERROR: return { ...state, isLoading: action.payload }
-    case USER_ADDRESS: return { ...state, userAddress: action.payload }
     case CHANGE_VIEW: return { ...state, view: action.payload }
 
     default: return state
