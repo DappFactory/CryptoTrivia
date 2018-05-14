@@ -40,29 +40,6 @@ export function placeBet(betAmount, quizInstance, userAddress) {
   }
 }
 
-export function startQuiz(quizInstance, userAddress) {
-  return (dispatch) => {
-    quizInstance.BetPlaced((err, res) => {
-      if (!err) {
-        quizInstance.start({
-            from: userAddress
-          })
-          .then((result) => {
-            dispatch({
-              type: QUIZ_STARTED
-            });
-          })
-          .catch((error) => {
-            dispatch({
-              type: CONTRACT_ERROR,
-              payload: error
-            });
-          });
-      }
-    });
-  }
-}
-
 export default (state = {}, action) => {
   switch (action.type) {
     case PLACE_BET:

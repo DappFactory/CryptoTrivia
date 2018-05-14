@@ -57,12 +57,12 @@ export function initializeAllContracts() {
       if (typeof quizContract.currentProvider.sendAsync !== "function") {
         quizContract.currentProvider.sendAsync = function() {
           return quizContract.currentProvider.send.apply(
-            quizContract.currentProvider, arguments: [5, 100]
+            quizContract.currentProvider, arguments
           );
         };
       }
 
-      quizContract.at('0xa5adc4126bffefb8645758a874c47926a994650c').then(instance => {
+      quizContract.at('0xc52a6bcf6ee1735cd42e57995f4e77389fc5f239').then(instance => {
         console.log(instance);
         // ADD: dispatch here and save it in the state.
         dispatch({
