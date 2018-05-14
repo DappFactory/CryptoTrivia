@@ -73,21 +73,6 @@ contract Quiz {
         quizzes[msg.sender].answers = new uint[](TotalQuestions);
     }
 
-    function startQuestion() public {
-    /*
-    Function (public) Start a new question and emit event
-
-    @output:
-    - None
-    */
-        require(quizzes[msg.sender].betAmount > 0);
-        require(quizzes[msg.sender].questionCounter < TotalQuestions);
-
-        quizzes[msg.sender].questionStartTime = now;
-
-        emit QuestionStarted(msg.sender, quizzes[msg.sender].questionCounter);
-    }
-
     function answerQuestion(bool ans) public {
     /*
     Function (public) Record the result of an answered question and emit event
@@ -112,6 +97,8 @@ contract Quiz {
         emit QuestionAnswered(msg.sender, quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter]);
 
         quizzes[msg.sender].questionCounter++;
+
+        quizzes[msg.sender].questionStartTime = now;
     }
 
     function distributeReward() public payable {

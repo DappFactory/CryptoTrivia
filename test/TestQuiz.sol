@@ -53,8 +53,6 @@ contract TestQuiz {
 
         address a = quiz.GetOwner();
 
-        quiz.startQuestion();
-
         (betAmount,questionsCorrect,questionCounter,questionStartTime,reward,ended) = quiz.quizzes(a);
 
         Assert.isNotZero(questionStartTime, "Question start time should not be zero.");
@@ -68,7 +66,6 @@ contract TestQuiz {
 
         address a = quiz.GetOwner();
 
-        quiz.startQuestion();
         quiz.answerQuestion(true);
 
         (betAmount,questionsCorrect,questionCounter,questionStartTime,reward,ended) = quiz.quizzes(a);
@@ -85,7 +82,6 @@ contract TestQuiz {
 
         address a = quiz.GetOwner();
 
-        quiz.startQuestion();
         quiz.answerQuestion(false);
 
         (betAmount,questionsCorrect,questionCounter,questionStartTime,reward,ended) = quiz.quizzes(a);
@@ -104,7 +100,6 @@ contract TestQuiz {
 
         for (uint ii = 0; ii < 4; ii++) {
 
-            quiz.startQuestion();
             quiz.answerQuestion(true);
         }
 

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Quiz from '../Quiz';
 import Banner from '../SharedComponents/Banner';
 import AppBody from './AppBody';
-import StartScreen from '../StartScreen';
+import StartQuiz from '../StartQuiz';
+import PlaceBet from '../PlaceBet';
 import EndScreen from '../EndScreen';
-
 
 export default class App extends React.Component {
 
@@ -42,7 +42,7 @@ export default class App extends React.Component {
   renderStartScreen() {
     if (!this.props.isLoading) {
       return (
-        <StartScreen />
+        <PlaceBet />
       );
     }
   }
@@ -56,7 +56,8 @@ export default class App extends React.Component {
     return (
       <div>
         <AppBody>
-          {(!hasError && this.props.view === 'start') && <StartScreen changeView={this.props.changeView} />}
+          {(!hasError && this.props.view === 'placebet') && <PlaceBet changeView={this.props.changeView} />}
+          {(!hasError && this.props.view === 'start') && <StartQuiz changeView={this.props.changeView} />}
           {(!hasError && this.props.view === 'quiz') && <Quiz changeView={this.props.changeView} /> }
           {(!hasError && this.props.view === 'end') && <EndScreen changeView={this.props.changeView} /> }
         </AppBody>

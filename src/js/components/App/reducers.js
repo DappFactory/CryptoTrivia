@@ -12,7 +12,7 @@ const initialState = {
   quizInstance: null,
   isLoading: true,
   userAddress: null,
-  view: 'start'
+  view: 'placebet'
 };
 
 function getWeb3() {
@@ -23,6 +23,7 @@ function getWeb3() {
         // Extract the default account here. Metamask with web3 does not have the
         // default account parameter.
         const defaultAccount = web3.eth.defaultAccount;
+
         web3 = new Web3(web3.currentProvider);
         resolve({
           web3: web3,
@@ -96,30 +97,11 @@ export function initializeAllContracts() {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case QUIZ_INSTANCE:
-      return { ...state,
-        quizInstance: action.payload
-      }
-    case USER_ADDRESS:
-      return { ...state,
-        userAddress: action.payload
-      }
-    case IS_LOADING:
-      return { ...state,
-        isLoading: action.payload
-      }
-    case ERROR:
-      return { ...state,
-        isLoading: action.payload
-      }
-    case USER_ADDRESS:
-      return { ...state,
-        userAddress: action.payload
-      }
-    case CHANGE_VIEW:
-      return { ...state,
-        view: action.payload
-      }
+    case QUIZ_INSTANCE: return { ...state, quizInstance: action.payload }
+    case USER_ADDRESS: return { ...state, userAddress: action.payload }
+    case IS_LOADING: return { ...state, isLoading: action.payload }
+    case ERROR: return { ...state, isLoading: action.payload }
+    case CHANGE_VIEW: return { ...state, view: action.payload }
 
     default:
       return state
