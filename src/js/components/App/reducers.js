@@ -62,7 +62,7 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.at('0xc52a6bcf6ee1735cd42e57995f4e77389fc5f239').then(instance => {
+      quizContract.at('0xcec6c9c8e452caf3f49ab72eac58aa9f875d3421').then(instance => {
         console.log(instance);
         // ADD: dispatch here and save it in the state.
         dispatch({

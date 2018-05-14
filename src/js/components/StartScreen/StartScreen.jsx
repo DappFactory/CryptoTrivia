@@ -27,7 +27,7 @@ export default class StartScreen extends React.Component {
       betError,
       userAddress,
       changeView,
-      startQuiz,
+      start,
       startQuestion,
     } = this.props;
 
@@ -50,6 +50,7 @@ export default class StartScreen extends React.Component {
         />
         <div class="btn-group">
           <button onClick={()=> placeBet(betAmount, quizInstance)}>BET</button>
+          <button onClick={()=> start(quizInstance)}>START</button>
           <button onClick={()=> startQuestion(quizInstance, changeView)}>START_QUESTION</button>
         </div>
       </Card>

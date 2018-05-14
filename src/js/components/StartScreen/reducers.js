@@ -15,7 +15,7 @@ export function startQuestion(quizInstance, changeView, userAddress) {
 
 export function placeBet(betAmount, quizInstance, userAddress) {
   return (dispatch) => {
-    if (!betAmount || isNaN(betAmount) || betAmount <= 0) {
+    if (!betAmount || isNaN(betAmount) || betAmount <= 10) {
       dispatch({
         type: BET_ERROR,
         payload: true
@@ -37,6 +37,25 @@ export function placeBet(betAmount, quizInstance, userAddress) {
           });
         })
     }
+  }
+}
+
+export function start(quizInstance, userAddress) {
+  return (dispatch) => {
+    quizInstance.start({
+        from: userAddress
+      })
+      .then((res) => {
+        dispatch({
+          type: QUIZ_STARTED
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: CONTRACT_ERROR,
+          payload: error
+        });
+      })
   }
 }
 
