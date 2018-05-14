@@ -3,7 +3,7 @@ export const CONTRACT_ERROR = 'QUIZ/CONTRACT_ERROR';
 
 export function startQuiz(quizInstance, userAddress, changeView) {
   return (dispatch) => {
-    quizInstance.start({ from: userAddress, gas: 6654750 })
+    quizInstance.start({ from: userAddress, gas: 210000 })
       .then((result) => {
         dispatch({ type: QUIZ_STARTED });
         changeView('quiz');
