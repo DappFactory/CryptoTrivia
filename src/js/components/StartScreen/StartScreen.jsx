@@ -49,9 +49,9 @@ export default class StartScreen extends React.Component {
           placeholder={placeholder}
         />
         <div class="btn-group">
-          <button onClick={()=> placeBet(betAmount, quizInstance)}>BET</button>
-          <button onClick={()=> start(quizInstance)}>START</button>
-          <button onClick={()=> startQuestion(quizInstance, changeView)}>START_QUESTION</button>
+          <button onClick={()=> placeBet(betAmount, quizInstance, userAddress)}>BET</button>
+          <button onClick={()=> start(quizInstance, userAddress)}>START</button>
+          <button onClick={()=> startQuestion(quizInstance, changeView, userAddress)}>START_QUESTION</button>
         </div>
       </Card>
 
