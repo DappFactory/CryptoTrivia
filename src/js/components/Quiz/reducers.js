@@ -59,7 +59,7 @@ export function initializeQuestions() {
           dispatch({ type: GET_NUM_QUESTIONS, payload: resultQuestions.length });
           dispatch({ type: GET_ALL_QUESTIONS, payload: resultQuestions });
           dispatch({ type: GET_QUESTION, payload: resultQuestions[0] });
-          dispatch({ type: GET_TIMER, payload: 5 });
+          dispatch({ type: GET_TIMER, payload: 100 });
         });
       })
       .catch((error) => {
@@ -88,7 +88,7 @@ export function answerQuestion(question, answer, changeView) {
     const isCorrect = answer === question.answer;
     const newIndex = getState().quiz.index + 1;
 
-    quizInstance.answerQuestion(isCorrect, { from: getState().app.userAddress, gas: 200 })
+    quizInstance.answerQuestion(isCorrect, { from: getState().app.userAddress })
       .then(result => console.log(result))
       .catch((error) => {
         dispatch({ type: QUIZ_ERROR, payload: error });
@@ -99,7 +99,7 @@ export function answerQuestion(question, answer, changeView) {
       changeView('end')
       clearInterval(timerFunc);
     } else {
-      dispatch({ type: GET_TIMER, payload: 5 });
+      dispatch({ type: GET_TIMER, payload: 100 });
       dispatch({ type: CHOOSE_ANSWER, payload: '' });
       dispatch({ type: INCREASE_INDEX, payload: newIndex });
       dispatch({ type: GET_QUESTION, payload: getState().quiz.questions[newIndex] });
