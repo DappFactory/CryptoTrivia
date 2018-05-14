@@ -32,7 +32,7 @@ contract TestQuiz {
 
         Quiz quiz = new Quiz(4, 1);
         quiz.bet(3);
-        quiz.start();
+
         address a = quiz.GetOwner();
 
         (betAmount,questionsCorrect,questionCounter,questionStartTime,reward,ended) = quiz.quizzes(a);
@@ -50,7 +50,7 @@ contract TestQuiz {
 
         Quiz quiz = new Quiz(4, 1);
         quiz.bet(3);
-        quiz.start();
+
         address a = quiz.GetOwner();
 
         quiz.startQuestion();
@@ -65,7 +65,7 @@ contract TestQuiz {
 
         Quiz quiz = new Quiz(4, 1);
         quiz.bet(3);
-        quiz.start();
+
         address a = quiz.GetOwner();
 
         quiz.startQuestion();
@@ -82,7 +82,7 @@ contract TestQuiz {
 
         Quiz quiz = new Quiz(4, 1);
         quiz.bet(3);
-        quiz.start();
+
         address a = quiz.GetOwner();
 
         quiz.startQuestion();
@@ -99,7 +99,7 @@ contract TestQuiz {
 
         Quiz quiz = new Quiz(4, 1);
         quiz.bet(3);
-        quiz.start();
+
         address a = quiz.GetOwner();
 
         for (uint ii = 0; ii < 4; ii++) {

@@ -24,20 +24,17 @@ function getWeb3() {
         // default account parameter.
         const defaultAccount = web3.eth.defaultAccount;
 
-        /**
-        console.log("default account: " + defaultAccount);
-
-        const balance = web3.eth.getBalance('0x262453a7b5c8a14ef21cc5e4bd0da87ced975235');
-        console.log("balance: " + balance);
-
-        /** */
-
         web3 = new Web3(web3.currentProvider);
-        resolve({ web3: web3, defaultAccount })
+        resolve({
+          web3: web3,
+          defaultAccount
+        })
       } else {
         const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
         web3 = new Web3(provider)
-        resolve({ web3: web3 })
+        resolve({
+          web3: web3
+        })
       }
     })
   })
@@ -45,7 +42,10 @@ function getWeb3() {
 
 export function changeView(view) {
   return (dispatch) => {
-    dispatch({ type: CHANGE_VIEW, payload: view })
+    dispatch({
+      type: CHANGE_VIEW,
+      payload: view
+    })
   }
 }
 
@@ -65,15 +65,30 @@ export function initializeAllContracts() {
 
       quizContract.deployed().then(instance => {
         // ADD: dispatch here and save it in the state.
-        dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
-        dispatch({ type: QUIZ_INSTANCE, payload: instance })
-        dispatch({ type: IS_LOADING, payload: false })
+        dispatch({
+          type: USER_ADDRESS,
+          payload: results.defaultAccount
+        })
+        dispatch({
+          type: QUIZ_INSTANCE,
+          payload: instance
+        })
+        dispatch({
+          type: IS_LOADING,
+          payload: false
+        })
       });
 
     }).catch((err) => {
       console.log('Error in index - initializeContract:', err);
-      dispatch({ type: ERROR, payload: err })
-      dispatch({ type: IS_LOADING, payload: false })
+      dispatch({
+        type: ERROR,
+        payload: err
+      })
+      dispatch({
+        type: IS_LOADING,
+        payload: false
+      })
     });
   }
 }
@@ -87,6 +102,7 @@ export default (state = initialState, action) => {
     case ERROR: return { ...state, isLoading: action.payload }
     case CHANGE_VIEW: return { ...state, view: action.payload }
 
-    default: return state
+    default:
+      return state
   }
 }

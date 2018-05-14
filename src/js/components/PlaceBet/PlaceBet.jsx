@@ -57,6 +57,7 @@ export default class PlaceBet extends React.Component {
           {CONSTANTS.PLACE_BET}
         </Button>
       </Card>
+
     );
   }
 }

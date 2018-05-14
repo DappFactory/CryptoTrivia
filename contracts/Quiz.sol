@@ -53,6 +53,8 @@ contract Quiz {
 
         quizzes[msg.sender].betAmount = amount;
 
+        start();
+
         emit BetPlaced(msg.sender, amount);
     }
 
@@ -63,8 +65,6 @@ contract Quiz {
     @output:
     - None
     */
-        require(quizzes[msg.sender].betAmount > 0);
-
         quizzes[msg.sender].questionsCorrect = 0;
         quizzes[msg.sender].questionCounter = 0;
         quizzes[msg.sender].reward = 0;

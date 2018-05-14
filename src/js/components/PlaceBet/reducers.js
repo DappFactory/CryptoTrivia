@@ -1,20 +1,28 @@
 export const PLACE_BET = 'QUIZ/PLACE_BET';
 export const CONTRACT_ERROR = 'QUIZ/CONTRACT_ERROR';
 export const BET_ERROR = 'QUIZ/BET_ERROR';
-export const BET_RECEIVED ='QUIZ/BET_RECEIVED';
+export const BET_RECEIVED = 'QUIZ/BET_RECEIVED';
 
 export function placeBet(betAmount, quizInstance, userAddress, changeView) {
   return (dispatch) => {
-    if (!betAmount || isNaN(betAmount) || betAmount <= 0) {
-      dispatch({ type: BET_ERROR, payload: true });
+    if (!betAmount || isNaN(betAmount) || betAmount <= 10) {
+      dispatch({
+        type: BET_ERROR,
+        payload: true
+      });
     } else {
-      quizInstance.bet(betAmount, { from: userAddress })
+      quizInstance.bet(betAmount, {
+          from: userAddress
+        })
         .then((res) => {
           dispatch({ type: PLACE_BET, betAmount });
           changeView('start');
         })
         .catch((error) => {
-          dispatch({ type: CONTRACT_ERROR, payload: error });
+          dispatch({
+            type: CONTRACT_ERROR,
+            payload: error
+          });
         })
     }
   }
