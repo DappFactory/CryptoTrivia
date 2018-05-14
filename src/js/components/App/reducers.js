@@ -62,7 +62,7 @@ export function initializeAllContracts() {
         };
       }
 
-      quizContract.at('0x4b7742daa995624012bd7937764c08693a4468f2').then(instance => {
+      quizContract.deployed().then(instance => {
         console.log(instance);
         // ADD: dispatch here and save it in the state.
         dispatch({

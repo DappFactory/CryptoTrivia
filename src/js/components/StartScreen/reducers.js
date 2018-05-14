@@ -43,7 +43,7 @@ export function placeBet(betAmount, quizInstance, userAddress) {
 export function start(quizInstance, userAddress) {
   return (dispatch) => {
     quizInstance.start({
-        from: userAddress
+        from: userAddress,
       })
       .then((res) => {
         dispatch({
