@@ -2,50 +2,66 @@ export const QUIZ_STARTED = 'QUIZ/QUIZ_STARTED';
 export const PLACE_BET = 'QUIZ/PLACE_BET';
 export const CONTRACT_ERROR = 'QUIZ/CONTRACT_ERROR';
 export const BET_ERROR = 'QUIZ/BET_ERROR';
-export const BET_RECEIVED ='QUIZ/BET_RECEIVED';
+export const BET_RECEIVED = 'QUIZ/BET_RECEIVED';
 
-export function startQuiz(betAmount, quizInstance, changeView) {
-  return (dispatch, getState) => {
-    if (!betAmount || isNaN(betAmount) || betAmount <= 0) {
-      dispatch({ type: BET_ERROR, payload: true });
-    } else {
-      dispatch({ type: QUIZ_STARTED, payload: '' });
-      changeView('quiz')
-    }
+export function startQuestion(quizInstance, changeView, userAddress) {
+  return (dispatch) => {
+    quizInstance.startQuestion({
+      from: userAddress
+    })
+    changeView('quiz')
   }
 }
 
 export function placeBet(betAmount, quizInstance, userAddress) {
   return (dispatch) => {
     if (!betAmount || isNaN(betAmount) || betAmount <= 0) {
-      dispatch({ type: BET_ERROR, payload: true });
+      dispatch({
+        type: BET_ERROR,
+        payload: true
+      });
     } else {
-      quizInstance.bet(betAmount, { from: userAddress })
+      quizInstance.bet(betAmount, {
+          from: userAddress
+        })
         .then((res) => {
-          dispatch({ type: PLACE_BET, betAmount });
+          dispatch({
+            type: PLACE_BET,
+            betAmount
+          });
         })
         .catch((error) => {
-          dispatch({ type: CONTRACT_ERROR, payload: error });
+          dispatch({
+            type: CONTRACT_ERROR,
+            payload: error
+          });
         })
     }
   }
 }
 
-// export function startQuiz(quizInstance, userAddress) {
-//   return (dispatch) => {
-//     quizInstance.BetPlaced((err, res) => {
-//       if (!err) {
-//         quizInstance.start({ from: userAddress })
-//           .then((result) => {
-//             dispatch({ type: QUIZ_STARTED });
-//           })
-//           .catch((error) => {
-//             dispatch({ type: CONTRACT_ERROR, payload: error });
-//           });
-//       }
-//     });
-//   }
-// }
+export function startQuiz(quizInstance, userAddress) {
+  return (dispatch) => {
+    quizInstance.BetPlaced((err, res) => {
+      if (!err) {
+        quizInstance.start({
+            from: userAddress
+          })
+          .then((result) => {
+            dispatch({
+              type: QUIZ_STARTED
+            });
+          })
+          .catch((error) => {
+            dispatch({
+              type: CONTRACT_ERROR,
+              payload: error
+            });
+          });
+      }
+    });
+  }
+}
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -75,6 +91,7 @@ export default (state = {}, action) => {
         contractError: false,
       }
 
-    default: return state;
+    default:
+      return state;
   }
 }

@@ -27,7 +27,8 @@ export default class StartScreen extends React.Component {
       betError,
       userAddress,
       changeView,
-      startQuiz
+      startQuiz,
+      startQuestion,
     } = this.props;
 
     const { betAmount } = this.state;
@@ -47,18 +48,13 @@ export default class StartScreen extends React.Component {
           onChange={this.onBetAmountChange}
           placeholder={placeholder}
         />
-        <Button
-          bgColor="darkPink"
-          hoverColor="darkerPink"
-          color="white"
-          height="50px"
-          size="xl"
-          width="200px"
-          onClick={()=> startQuiz(betAmount, quizInstance, changeView)}
-        >
-          {CONSTANTS.START}
-        </Button>
+        <div class="btn-group">
+          <button onClick={()=> placeBet(betAmount, quizInstance)}>BET</button>
+          <button onClick={()=> startQuiz(quizInstance)}>START</button>
+          <button onClick={()=> startQuestion(quizInstance, changeView)}>START_QUESTION</button>
+        </div>
       </Card>
+
     );
   }
 }

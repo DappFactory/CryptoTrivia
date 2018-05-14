@@ -24,11 +24,16 @@ function getWeb3() {
         // default account parameter.
         const defaultAccount = web3.eth.defaultAccount;
         web3 = new Web3(web3.currentProvider);
-        resolve({ web3: web3, defaultAccount })
+        resolve({
+          web3: web3,
+          defaultAccount
+        })
       } else {
         const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
         web3 = new Web3(provider)
-        resolve({ web3: web3 })
+        resolve({
+          web3: web3
+        })
       }
     })
   })
@@ -36,7 +41,10 @@ function getWeb3() {
 
 export function changeView(view) {
   return (dispatch) => {
-    dispatch({ type: CHANGE_VIEW, payload: view })
+    dispatch({
+      type: CHANGE_VIEW,
+      payload: view
+    })
   }
 }
 
@@ -49,23 +57,38 @@ export function initializeAllContracts() {
       if (typeof quizContract.currentProvider.sendAsync !== "function") {
         quizContract.currentProvider.sendAsync = function() {
           return quizContract.currentProvider.send.apply(
-            quizContract.currentProvider, arguments
+            quizContract.currentProvider, arguments: [5, 100]
           );
         };
       }
 
-      quizContract.at('0x83fd02ac0760fad1842cbe5f153ce154dc91f4fc').then(instance => {
+      quizContract.at('0xa5adc4126bffefb8645758a874c47926a994650c').then(instance => {
         console.log(instance);
         // ADD: dispatch here and save it in the state.
-        dispatch({ type: USER_ADDRESS, payload: results.defaultAccount })
-        dispatch({ type: QUIZ_INSTANCE, payload: instance })
-        dispatch({ type: IS_LOADING, payload: false })
+        dispatch({
+          type: USER_ADDRESS,
+          payload: results.defaultAccount
+        })
+        dispatch({
+          type: QUIZ_INSTANCE,
+          payload: instance
+        })
+        dispatch({
+          type: IS_LOADING,
+          payload: false
+        })
       });
 
     }).catch((err) => {
       console.log('Error in index - initializeContract:', err);
-      dispatch({ type: ERROR, payload: err })
-      dispatch({ type: IS_LOADING, payload: false })
+      dispatch({
+        type: ERROR,
+        payload: err
+      })
+      dispatch({
+        type: IS_LOADING,
+        payload: false
+      })
     });
   }
 }
@@ -73,13 +96,32 @@ export function initializeAllContracts() {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case QUIZ_INSTANCE: return { ...state, quizInstance: action.payload }
-    case USER_ADDRESS: return { ...state, userAddress: action.payload }
-    case IS_LOADING: return { ...state, isLoading: action.payload }
-    case ERROR: return { ...state, isLoading: action.payload }
-    case USER_ADDRESS: return { ...state, userAddress: action.payload }
-    case CHANGE_VIEW: return { ...state, view: action.payload }
+    case QUIZ_INSTANCE:
+      return { ...state,
+        quizInstance: action.payload
+      }
+    case USER_ADDRESS:
+      return { ...state,
+        userAddress: action.payload
+      }
+    case IS_LOADING:
+      return { ...state,
+        isLoading: action.payload
+      }
+    case ERROR:
+      return { ...state,
+        isLoading: action.payload
+      }
+    case USER_ADDRESS:
+      return { ...state,
+        userAddress: action.payload
+      }
+    case CHANGE_VIEW:
+      return { ...state,
+        view: action.payload
+      }
 
-    default: return state
+    default:
+      return state
   }
 }
