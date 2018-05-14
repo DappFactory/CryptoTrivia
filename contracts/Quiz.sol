@@ -24,9 +24,6 @@ contract Quiz {
     // Event signaling bet placed by participant
     event BetPlaced(address playerInfo, uint betAmount);
 
-    // Event signaling question and timer started
-    event QuestionStarted(address playerInfo, uint questionNumber);
-
     // Event signaling question answered
     event QuestionAnswered(address playerInfo, uint answer);
 
@@ -101,12 +98,22 @@ contract Quiz {
         quizzes[msg.sender].questionStartTime = now;
     }
 
-    function distributeReward() public payable {
+    function getQuestionsCorrect() public view returns (uint total) {
+    /*
+    Function (public) to get total questions correct.
+
+    @output:
+    - (uint) total number of questions correct
+    */
+        return quizzes[msg.sender].questionsCorrect;
+    }
+
+    function distributeReward() public payable returns (uint reward){
     /*
     Function (public) to distribute reward to the participant.
 
     @output:
-    - None
+    - (uint)
     */
         require(quizzes[msg.sender].betAmount > 0);
         require(quizzes[msg.sender].questionCounter == TotalQuestions);
@@ -124,6 +131,8 @@ contract Quiz {
         emit QuizEnded(msg.sender, quizzes[msg.sender].reward);
 
         //msg.sender.transfer(quizzes[msg.sender].reward);
+
+        return quizzes[msg.sender].reward;
     }
 
     function kill() public {
