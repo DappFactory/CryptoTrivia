@@ -67,21 +67,25 @@
   "dependencies": {
     "async": "^2.6.0",
     "browserify": "^16.1.1",
+    "concurrently": "^3.5.1",
     "dotenv": "^2.0.0",
     "ipfs": "^0.28.2",
     "ipfs-api": "^19.0.0",
     "npm": "^5.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "stream-buffers": "^3.0.1",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
+    "stream-buffers": "^3.0.1",
     "styled-components": "^3.2.3",
     "web3": "^1.0.0-beta.33"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start:client": "node scripts/start.js",
+    "start:blockChain": "node scripts/startTestblockChain.js",
+    "start:deployContract": "node scripts/deployContract.js",
+    "start": "concurrently \"npm run start:blockChain\" \"npm run start:client\"",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
