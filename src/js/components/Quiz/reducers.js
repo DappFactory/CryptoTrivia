@@ -17,7 +17,7 @@ const initialState = {
   question: {},
   index: 0,
   timer: null,
-  numQuestions: 20, // can probably make this dynamic based on user input
+  numQuestions: 5, // can probably make this dynamic based on user input
   answer: '',
   endQuiz: false,
   error: ''
