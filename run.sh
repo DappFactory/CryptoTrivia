@@ -13,4 +13,4 @@ truffle compile
 truffle migrate
 
 # Run contract unit tests with truffle
-truffle test
+#ctruffle test
