@@ -19,6 +19,7 @@ export function placeBet(betAmount, quizInstance, userAddress, changeView) {
           changeView('start');
         })
         .catch((error) => {
+          console.log(error);
           dispatch({
             type: CONTRACT_ERROR,
             payload: error

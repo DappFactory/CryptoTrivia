@@ -68,9 +68,10 @@
   "dependencies": {
     "async": "^2.6.0",
     "axios": "^0.18.0",
+    "bignumber.js": "^7.0.1",
     "browserify": "^16.1.1",
-    "csv-parse": "^2.2.0",
     "concurrently": "^3.5.1",
+    "csv-parse": "^2.2.0",
     "dotenv": "^2.0.0",
     "ipfs": "^0.28.2",
     "ipfs-api": "^19.0.0",

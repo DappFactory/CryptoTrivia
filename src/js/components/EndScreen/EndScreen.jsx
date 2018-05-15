@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BigNumber } from 'bignumber.js';
 
 import Title from '../SharedComponents/Title';
 import Text from '../SharedComponents/Text';
@@ -13,10 +14,39 @@ const Span = styled.span`
 `;
 
 export default class StartScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      questionCorrect: 0,
+      reward: 0,
+    }
+  }
+
+  componentDidMount = () => {
+    const { quizInstance, userAddress } = this.props;
+    quizInstance.getQuestionsCorrect({
+      from: userAddress
+    })
+    .then((questionsCorrect) => {
+      const result = new BigNumber(questionsCorrect);
+      console.log(result);
+      this.setState({ questionsCorrect: result.toNumber() })
+    });
+
+    quizInstance.distributeReward({
+      from: userAddress
+    })
+    .then((reward) => {
+      console.log(reward);
+      const result = new BigNumber(reward);
+      console.log(result);
+      this.setState( { reward })
+    })
+  }
+
   render() {
-    const correctRate = "18/20";
-    const etherAmount = "250";
-    const result = `${CONSTANTS.PRE_RESULT} ${etherAmount} ${CONSTANTS.POST_RESULT}`;
+    const correctRate = `${this.state.questionsCorrect}/5`;
+    const result = `${CONSTANTS.PRE_RESULT} ${this.state.reward} ${CONSTANTS.POST_RESULT}`;
 
     return (
       <Card size="medium">

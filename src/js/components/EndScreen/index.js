@@ -1,3 +1,12 @@
+import { connect } from 'react-redux';
 import EndScreen from './EndScreen';
 
-export default EndScreen;
+const mapStateToProps = state => ({
+  quizInstance: state.app.quizInstance,
+  userAddress: state.app.userAddress,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(EndScreen);
