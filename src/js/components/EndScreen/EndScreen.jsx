@@ -17,35 +17,53 @@ export default class StartScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      questionCorrect: 0,
+      questionsCorrect: 0,
+      totalQuestions: 0,
       reward: 0,
     }
   }
 
   componentDidMount = () => {
-    const { quizInstance, userAddress } = this.props;
-    quizInstance.getQuestionsCorrect({
-      from: userAddress
-    })
-    .then((questionsCorrect) => {
-      const result = new BigNumber(questionsCorrect);
-      console.log(result);
-      this.setState({ questionsCorrect: result.toNumber() })
-    });
+    //this.initializeEnd(this.props);
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (this.props === nextProps || !nextProps.quizInstance) {
+      return false;
+    }
+    this.initializeEnd(nextProps);
+  }
+
+  initializeEnd = (props) => {
+    const { quizInstance, userAddress } = props;
+
+    // Fetch how many questions correct
+    quizInstance.getQuestionsCorrect({ from: userAddress })
+      .then((questionsCorrect) => {
+        const result = new BigNumber(questionsCorrect);
+        this.setState({
+          questionsCorrect: result.toNumber(),
+        });
+      });
+
+    // Fetch total questions
+    quizInstance.TotalQuestions({ from: userAddress })
+      .then(totalQuestions => this.setState({ totalQuestions }));
 
     quizInstance.distributeReward({
-      from: userAddress
+      from: userAddress,
+      gas: 66265,
     })
     .then((reward) => {
       console.log(reward);
-      const result = new BigNumber(reward);
-      console.log(result);
-      this.setState( { reward })
+      const result = new BigNumber(reward).toNumber();
+      console.log('reward: ' + result);
+      this.setState( { result })
     })
   }
 
   render() {
-    const correctRate = `${this.state.questionsCorrect}/5`;
+    const correctRate = `${this.state.questionsCorrect}/${this.state.totalQuestions}`;
     const result = `${CONSTANTS.PRE_RESULT} ${this.state.reward} ${CONSTANTS.POST_RESULT}`;
 
     return (

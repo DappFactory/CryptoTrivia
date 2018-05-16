@@ -87,9 +87,9 @@
   },
   "scripts": {
     "start:client": "node scripts/start.js",
-    "start:blockChain": "node scripts/startTestblockChain.js",
+    "start:blockchain": "node scripts/startTestblockChain.js",
     "start:deployContract": "node scripts/deployContract.js",
-    "start": "concurrently \"npm run start:blockChain\" \"npm run start:client\"",
+    "start": "concurrently \"npm run start:blockchain\" \"npm run start:client\"",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },

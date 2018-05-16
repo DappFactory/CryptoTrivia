@@ -9,7 +9,7 @@ npm run start
 
 1. Run test blockchain in separate terminal.
 ```
-npm run start:blockChain
+npm run start:blockchain
 ```
 2. Execute run script in another terminal.
 ```
