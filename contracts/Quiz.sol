@@ -10,7 +10,6 @@ contract Quiz {
         uint questionsCorrect;
         uint questionCounter;
         uint questionStartTime;
-        uint[] answers;
         uint reward;
         bool ended;
     }
@@ -25,7 +24,7 @@ contract Quiz {
     event BetPlaced(address playerInfo, uint betAmount);
 
     // Event signaling question answered
-    event QuestionAnswered(address playerInfo, uint answer);
+    event QuestionAnswered(address playerInfo, bool answer);
 
     // Event signaling quiz ended
     event QuizEnded(address playerInfo, uint amount);
@@ -38,21 +37,21 @@ contract Quiz {
         QuestionTime = questionTime;
     }
 
-    function bet(uint amount) public payable {
+    function bet() public payable {
     /*
     Function (public) Set the amount to bet for the quiz.
 
     @output:
     - None
     */
-        require(amount > 0);
+        require(msg.value > 0);
         require(quizzes[msg.sender].questionCounter == 0);
 
-        quizzes[msg.sender].betAmount = amount;
+        quizzes[msg.sender].betAmount = msg.value;
 
         start();
 
-        emit BetPlaced(msg.sender, amount);
+        emit BetPlaced(msg.sender, msg.value);
     }
 
     function start() public {
@@ -64,10 +63,8 @@ contract Quiz {
     */
         quizzes[msg.sender].questionsCorrect = 0;
         quizzes[msg.sender].questionCounter = 0;
-        quizzes[msg.sender].reward = 0;
         quizzes[msg.sender].ended = false;
-
-        quizzes[msg.sender].answers = new uint[](TotalQuestions);
+        quizzes[msg.sender].questionStartTime = now;
     }
 
     function answerQuestion(bool ans) public {
@@ -78,23 +75,18 @@ contract Quiz {
     - None
     */
         require(quizzes[msg.sender].betAmount > 0);
-        require(quizzes[msg.sender].questionCounter < TotalQuestions);
+        require(quizzes[msg.sender].questionCounter <= TotalQuestions);
 
-        if (now - quizzes[msg.sender].questionStartTime > QuestionTime) {
-            quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter] = 100;
-        }
-        else if (ans) {
-            quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter] = 1;
+        bool correct = false;
+
+        if (now - quizzes[msg.sender].questionStartTime < QuestionTime && ans) {
             quizzes[msg.sender].questionsCorrect++;
-        }
-        else {
-            quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter] = 0;
+            correct = true;
         }
 
-        emit QuestionAnswered(msg.sender, quizzes[msg.sender].answers[quizzes[msg.sender].questionCounter]);
+        emit QuestionAnswered(msg.sender, correct);
 
         quizzes[msg.sender].questionCounter++;
-
         quizzes[msg.sender].questionStartTime = now;
     }
 
@@ -108,31 +100,24 @@ contract Quiz {
         return quizzes[msg.sender].questionsCorrect;
     }
 
-    function distributeReward() public payable returns (uint reward){
+    function distributeReward() public {
     /*
     Function (public) to distribute reward to the participant.
 
     @output:
-    - (uint)
+    - None
     */
-        require(quizzes[msg.sender].betAmount > 0);
+        // TODO: figure out why gas limit estimation in metamask is broken when using accessing betAmount value
+        require(!quizzes[msg.sender].ended);
         require(quizzes[msg.sender].questionCounter == TotalQuestions);
 
         quizzes[msg.sender].ended = true;
+        uint amount = quizzes[msg.sender].betAmount * quizzes[msg.sender].questionsCorrect / TotalQuestions;
+        //quizzes[msg.sender].betAmount = 0;
+        quizzes[msg.sender].reward = amount;
+        emit QuizEnded(msg.sender, amount);
 
-        if (quizzes[msg.sender].questionsCorrect == TotalQuestions) {
-            quizzes[msg.sender].reward = quizzes[msg.sender].betAmount;
-        } else if (quizzes[msg.sender].questionsCorrect < TotalQuestions / 4) {
-            quizzes[msg.sender].reward = 0;
-        } else {
-            quizzes[msg.sender].reward = quizzes[msg.sender].betAmount / 2;
-        }
-
-        emit QuizEnded(msg.sender, quizzes[msg.sender].reward);
-
-        //msg.sender.transfer(quizzes[msg.sender].reward);
-
-        return quizzes[msg.sender].reward;
+        msg.sender.transfer(amount);
     }
 
     function kill() public {
