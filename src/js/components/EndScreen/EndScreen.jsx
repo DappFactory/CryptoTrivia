@@ -20,18 +20,19 @@ export default class StartScreen extends React.Component {
       questionsCorrect: 0,
       totalQuestions: 0,
       reward: 0,
+      finished: false,
     }
   }
 
   componentDidMount = () => {
-    //this.initializeEnd(this.props);
+    this.initializeEnd(this.props);
   }
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props === nextProps || !nextProps.quizInstance) {
       return false;
     }
-    this.initializeEnd(nextProps);
+    // this.initializeEnd(nextProps);
   }
 
   initializeEnd = (props) => {
@@ -40,15 +41,20 @@ export default class StartScreen extends React.Component {
     // Fetch how many questions correct
     quizInstance.getQuestionsCorrect({ from: userAddress })
       .then((questionsCorrect) => {
-        const result = new BigNumber(questionsCorrect);
+        const result = new BigNumber(questionsCorrect).toNumber();
+        console.log('result: ' + result);
         this.setState({
-          questionsCorrect: result.toNumber(),
+          questionsCorrect: result,
         });
       });
 
     // Fetch total questions
     quizInstance.TotalQuestions({ from: userAddress })
       .then(totalQuestions => this.setState({ totalQuestions }));
+  }
+
+  distributeAward = () => {
+    const { quizInstance, userAddress } = this.props;
 
     quizInstance.distributeReward({
       from: userAddress,
@@ -56,10 +62,14 @@ export default class StartScreen extends React.Component {
     })
     .then((reward) => {
       console.log(reward);
-      const result = new BigNumber(reward).toNumber();
+      const result = new BigNumber(reward.logs[0].args.amount).toNumber();
       console.log('reward: ' + result);
-      this.setState( { result })
+      this.setState( { reward: result, finished: true });
     })
+  }
+
+  goToStartPage = () => {
+    this.props.changeView('placebet');
   }
 
   render() {
@@ -73,22 +83,40 @@ export default class StartScreen extends React.Component {
           <Span>&nbsp;{correctRate}&nbsp;</Span>
           {CONSTANTS.POST_TITLE}
         </Title>
-        <Text
-          justify="center"
-          size="xl"
-        >
-         {result}
-        </Text>
-        <Button
-          bgColor="darkPink"
-          hoverColor="darkerPink"
-          color="white"
-          height="50px"
-          size="xl"
-          width="200px"
-        >
-          {CONSTANTS.PLAY_AGAIN}
-        </Button>
+        { this.state.finished &&
+          <Text
+            justify="center"
+            size="xl"
+          >
+            {result}
+          </Text>
+        }
+        { !this.state.finished &&
+            <Button
+              bgColor="darkPink"
+              hoverColor="darkerPink"
+              color="white"
+              height="50px"
+              size="xl"
+              width="200px"
+              onClick={() => this.distributeAward()}
+            >
+              {CONSTANTS.VIEW_REWARD}
+            </Button>
+        }
+        { this.state.finished &&
+          <Button
+            bgColor="darkPink"
+            hoverColor="darkerPink"
+            color="white"
+            height="50px"
+            size="xl"
+            width="200px"
+            onClick={() => this.goToStartPage() }
+          >
+            {CONSTANTS.PLAY_AGAIN}
+          </Button>
+        }
       </Card>
     );
   }

@@ -12,7 +12,7 @@ const initialState = {
   quizInstance: null,
   isLoading: true,
   userAddress: null,
-  view: 'end'
+  view: 'placebet'
 };
 
 function getWeb3() {
