@@ -11,8 +11,9 @@ export function placeBet(betAmount, quizInstance, userAddress, changeView) {
         payload: true
       });
     } else {
-      quizInstance.bet(betAmount, {
-          from: userAddress
+      quizInstance.bet({
+          from: userAddress,
+          value: 95920,
         })
         .then((res) => {
           dispatch({ type: PLACE_BET, betAmount });
