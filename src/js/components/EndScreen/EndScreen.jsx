@@ -58,7 +58,7 @@ export default class StartScreen extends React.Component {
 
     quizInstance.distributeReward({
       from: userAddress,
-      gas: 66265,
+      gas: 96265,
     })
     .then((reward) => {
       console.log(reward);

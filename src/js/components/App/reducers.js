@@ -36,6 +36,7 @@ function getWeb3() {
           web3: web3
         })
       }
+      console.log(window.web3.toWei('1', 'ether'))
     })
   })
 }
