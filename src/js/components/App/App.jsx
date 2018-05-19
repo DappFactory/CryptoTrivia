@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToggleAppInfo from '../ToggleAppInfo';
-import Loader from '../SharedComponents/Loader.js';
-import ButtonWrapper from './ButtonWrapper.js';
-import AppBody from './AppBody.js';
+import Quiz from '../Quiz';
+import Banner from '../SharedComponents/Banner';
+import AppBody from './AppBody';
+import StartQuiz from '../StartQuiz';
+import PlaceBet from '../PlaceBet';
+import EndScreen from '../EndScreen';
 
 export default class App extends React.Component {
 
@@ -14,37 +16,61 @@ export default class App extends React.Component {
   /** waits for all promises to resolve so we don't have to wrap all functions
       in 'if (exists) kind of stuff'
   **/
-  render() {
+
+  renderBanner() {
     if (this.props.isLoading) {
       return (
-        <Loader>Is loading...</Loader>
+        <Banner
+          bgColor="black"
+          color="white"
+        >
+          Is loading...
+        </Banner>
       );
-    } else {
+    } else if (this.props.contractError || this.props.quizError) {
       return (
-        <AppBody>
-          <ButtonWrapper>
-            <ToggleAppInfo
-              getMethod="getMaxNumberPlayers"
-              hideLabel="Hide Max Players"
-              showLabel="Show Max Players"
-              quizInstance={this.props.quizInstance}
-            />
-
-            <ToggleAppInfo
-              getMethod="getTotalBet"
-              hideLabel="Hide Pot Size"
-              showLabel="Show Pot Size"
-              quizInstance={this.props.quizInstance}
-            />
-          </ButtonWrapper>
-        </AppBody>
+        <Banner
+          bgColor="danger"
+          color="white"
+        >
+          Error in contract
+        </Banner>
       );
     }
+  }
+
+  renderStartScreen() {
+    if (!this.props.isLoading) {
+      return (
+        <PlaceBet />
+      );
+    }
+  }
+
+  renderEndScreen() {
+    return <EndScreen />
+  }
+
+  render() {
+    const hasError = this.props.contractError || this.props.quizError;
+    return (
+      <div>
+        <AppBody>
+          {(!hasError && this.props.view === 'placebet') && <PlaceBet changeView={this.props.changeView} />}
+          {(!hasError && this.props.view === 'start') && <StartQuiz changeView={this.props.changeView} />}
+          {(!hasError && this.props.view === 'quiz') && <Quiz changeView={this.props.changeView} /> }
+          {(!hasError && this.props.view === 'end') && <EndScreen changeView={this.props.changeView} /> }
+        </AppBody>
+        {this.renderBanner()}
+      </div>
+    );
   }
 }
 
 App.propTypes = {
   isLoading: PropTypes.bool,
   quizInstance: PropTypes.object,
-  initializeAllContracts: PropTypes.func
+  view: PropTypes.string,
+  initializeAllContracts: PropTypes.func,
+  changeView: PropTypes.func
 };

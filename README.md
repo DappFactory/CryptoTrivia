@@ -1,18 +1,23 @@
 # CryptoTrivia
+## To run the app
+This command runs both the client and the block chain.
+```
+npm run start
+```
 
 ## Steps to build and run tests
 
 1. Run test blockchain in separate terminal.
 ```
-ganache-cli -p 7545 -i 8887
+npm run start:blockchain
 ```
 2. Execute run script in another terminal.
 ```
-bash run.sh
+npm run start:deployContract
 ```
 
 3. Start up the front end
 ```
 npm install
-npm run start
+npm run start:client
 ```
